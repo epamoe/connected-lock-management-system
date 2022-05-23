@@ -1,0 +1,21 @@
+extention vs Code
+#flutter
+#python
+#dart
+#node js
+#django
+#mintlify Doc Writter 
+#
+
+
+QuelQue Commande
+//creer une application
+-> pip freeze > requirements.txt
+venv/Script/Activate.bat
+//demarrer le serveres
+1. py manage.py runserver
+
+
+/////////////////////////////////////////////////////////////
+for deployement
+

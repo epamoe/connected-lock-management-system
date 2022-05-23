@@ -1,0 +1,11 @@
+{
+    "dart.flutterRunAdditionalArgs": [
+        "--no-sound-null-safety"
+    ],
+    "dart.flutterAdditionalArgs": [
+        "--no-sound-null-safety"
+    ],
+    "dart.flutterTestAdditionalArgs": [
+        "--no-sound-null-safety"
+    ]
+}
