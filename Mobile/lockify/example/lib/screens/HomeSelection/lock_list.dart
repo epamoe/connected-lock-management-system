@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:ttlock_flutter_example/models/lockModel.dart';
+import 'package:ttlock_flutter_example/screens/LockOperations/LockOpps.dart';
 import 'package:ttlock_flutter_example/screens/ScanPage/scan_page.dart';
 import 'package:ttlock_flutter_example/services/user_service.dart';
 import 'package:ttlock_flutter_example/urls/urls.dart';
@@ -71,6 +72,7 @@ class _LockListState extends State<LockList> {
   getData() async {
     var data = await getLock(idAdmin);
     print("this, is data");
+    print(idAdmin);
     if (data != []) {
       _lockList!.clear();
       for (Map i in data) {
@@ -197,17 +199,17 @@ class _LockListState extends State<LockList> {
             onTap: () {
               timelock?.cancel();
               Future.delayed(const Duration(seconds: 1));
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => LockOpp(
-              //               lockName: lock.lockName!,
-              //               lockData: lock.lockData!,
-              //               lockMac: lock.lockMac!,
-              //               idAdmin: idAdmin,
-              //               idSerrure: lock.idSerrure!,
-              //               percent: lock.percent!,
-              //             )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LockOpp(
+                            lockName: lock.lockName!,
+                            lockData: lock.lockData!,
+                            lockMac: lock.lockMac!,
+                            idAdmin: idAdmin,
+                            idSerrure: lock.idSerrure!,
+                            percent: lock.percent!,
+                          )));
             },
           ),
         );
