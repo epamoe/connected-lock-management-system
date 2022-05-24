@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'lockifyweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sql6493719',
-        'USER': 'sql6493719',
-        'PASSWORD': '4PUGaRVWvJ',
-        'HOST': 'sql6.freesqldatabase.com',
+        'NAME': 'lockify_test',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
             'sql_mode': 'traditional',
