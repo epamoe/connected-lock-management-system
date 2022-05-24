@@ -1,0 +1,5 @@
+site web : phpmyadmin.co
+host: sql6.freesqldatabase.com	
+DatabaseName: sql6493719
+UserName: sql6493719	
+password: 4PUGaRVWvJ
