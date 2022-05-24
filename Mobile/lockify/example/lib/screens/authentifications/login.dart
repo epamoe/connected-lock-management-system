@@ -6,12 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ttlock_flutter_example/models/api_response.dart';
-import 'package:ttlock_flutter_example/models/user.dart';
-import 'package:ttlock_flutter_example/screens/ErrorsPage/kufuli_all_error_server.dart';
 import 'package:ttlock_flutter_example/screens/ForgetPassword/kufuli_all_forget_password_enter_email.dart';
 import 'package:ttlock_flutter_example/screens/HomeSelection/lockify_home.dart';
-import 'package:ttlock_flutter_example/services/AuthServices.dart';
 import 'package:ttlock_flutter_example/urls/myColors.dart';
 import 'package:ttlock_flutter_example/urls/urls.dart';
 import 'package:ttlock_flutter_example/widgets/validator.dart';
@@ -29,33 +25,30 @@ class _LoginPageState extends State<LoginPage> {
   String email = "";
   String password = "";
 
-
   @override
   void initState() {
     super.initState();
   }
+
   //fonction de login avec la BD
-/// It takes in an email, a password and a widget as parameters. It then sends a post request to the
-/// server with the email and password as the body. If the response is 200, it decodes the response and
-/// checks if the status is success. If it is, it stores the data in the shared preferences and
-/// navigates to the new page. If the status is empty, it shows an error. If the status is error, it
-/// shows an error. If the status is invalid credential, it shows an error. If the response is not 200,
-/// it shows an error
-/// 
-/// Args:
-///   email (String): email,
-///   pass (String): the password
-///   newPage (Widget): the page you want to navigate to after a successful login
+  /// It takes in an email, a password and a widget as parameters. It then sends a post request to the
+  /// server with the email and password as the body. If the response is 200, it decodes the response and
+  /// checks if the status is success. If it is, it stores the data in the shared preferences and
+  /// navigates to the new page. If the status is empty, it shows an error. If the status is error, it
+  /// shows an error. If the status is invalid credential, it shows an error. If the response is not 200,
+  /// it shows an error
+  ///
+  /// Args:
+  ///   email (String): email,
+  ///   pass (String): the password
+  ///   newPage (Widget): the page you want to navigate to after a successful login
   void login_(String email, String pass, Widget newPage) async {
     var url = Uri.parse(Urls.registerURL);
-  
-    Map map = {
-      "email": email,
-      "password": pass
-    };
+
+    Map map = {"email": email, "password": pass};
     EasyLoading.show(status: 'loading...');
-    final response =
-        await http.post(Uri.parse("https://lockify.herokuapp.com/login_lockify"),
+    final response = await http.post(
+        Uri.parse("https://lockify.herokuapp.com/login_lockify"),
         headers: {"Accept": "Application/JSON"},
         body: map);
 
@@ -65,25 +58,27 @@ class _LoginPageState extends State<LoginPage> {
 
       if (data["status"] == "success") {
         List<dynamic> result = data["data"];
-          int id = result[0]["id"];
-          String username = result[0]["name"];
-          String email = result[0]['email'];
-          String telephone = result[0]['numero_telephone'];
-          int role = result[0]['id_role'];
-              SharedPreferences pref = await SharedPreferences.getInstance();
-              await pref.setInt('id', id);
-              await pref.setString('username', username);
-              await pref.setString('email', email);
-              await pref.setString('telephone', telephone);
-              await pref.setInt('id_role', role);
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => newPage),
-                    (route) => false);
-      }if(data["status"] == "empty"){
-         EasyLoading.showError(data[""]);
-      }if(data["status"]=="error"){
-         EasyLoading.showError("internet error");
-      }if(data["status"] == "invalid credential"){
+        int id = result[0]["id"];
+        String username = result[0]["name"];
+        String email = result[0]['email'];
+        String telephone = result[0]['numero_telephone'];
+        int role = result[0]['id_role'];
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        await pref.setString('id', id.toString());
+        await pref.setString('username', username);
+        await pref.setString('email', email);
+        await pref.setString('telephone', telephone);
+        await pref.setString('id_role', role.toString());
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => newPage), (route) => false);
+      }
+      if (data["status"] == "empty") {
+        EasyLoading.showError(data[""]);
+      }
+      if (data["status"] == "error") {
+        EasyLoading.showError("internet error");
+      }
+      if (data["status"] == "invalid credential") {
         EasyLoading.showError("invalid credential");
       }
     } else {
@@ -192,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      login_(email,password,HomePageAll());
+                      login_(email, password, HomePageAll());
                     }
                   },
                   textColor: MyColors.mywhite,

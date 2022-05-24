@@ -104,10 +104,10 @@ class _ForgetPasswordEnterEmailPageState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Image.asset(
-                  'lib/resources/splashlogo.png',
+                  'lib/resources/L.png',
                   height: 50,
                 ),
-                // SizedBox(height: 5),
+                SizedBox(height: 5),
                 Text(
                   'Enter Your Email to verified it',
                   textAlign: TextAlign.center,
