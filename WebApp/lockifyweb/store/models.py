@@ -1,7 +1,7 @@
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
-from numpy import product
+
 
 # Create your models here.
 
@@ -51,7 +51,7 @@ class Lock(models.Model):
     lock_name = models.CharField(max_length=30, null=False)
     lock_mac = models.IntegerField(null=False)
     auto_lock_time= models.IntegerField(null=False)
-    lock_data = models.IntegerField(null=False)
+    lock_data = models.CharField(null=False, max_length=5000)
     lock_status = models.IntegerField(null=False)
     lock_percent = models.IntegerField(null=False)
     user = models.ForeignKey(MyUser, on_delete= models.CASCADE, null=False )

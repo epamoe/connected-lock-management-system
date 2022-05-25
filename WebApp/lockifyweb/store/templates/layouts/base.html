@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'home/assets/images/favicon.jpg' %}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'home/assets/images/favicon.jpg' %}">
     <!-- Material Design Iconic Font-V2.2.0 -->
     <link rel="stylesheet" href="{% static 'home/assets/css/material-design-iconic-font.min.css' %}">
     <!-- Font Awesome -->
@@ -43,7 +43,7 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{% static 'home/assets/css/responsive.css' %}">
     <!-- Modernizr js -->
-    <script src="{% static 'home/assets/js/vendor/modernizr-2.8.3.min.js' %}}"></script>
+    <script src="{% static 'home/assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
 </head>
 
 <body>
@@ -102,12 +102,12 @@
                                         <div class="ht-language-trigger"><span>English</span></div>
                                         <div class="language ht-language">
                                             <ul class="ht-setting-list">
-                                                <li class="active">
-                                                    <a href="#"><img src="{% static 'home/assets/images/menu/flag-icon/1.jpg' %}"} alt="">English</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><img src="{% static 'home/assets/images/menu/flag-icon/2.jpg' %}"} alt="">Français</a>
-                                                </li>
+                                                <li class="active"><a href="#"><img
+                                                            src="{% static 'home/assets/images/menu/flag-icon/1.jpg' %}"
+                                                            alt="">English</a></li>
+                                                <li><a href="#"><img
+                                                            src="{% static 'home/assets/images/menu/flag-icon/2.jpg' %}"
+                                                            alt="">Français</a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -128,7 +128,8 @@
                         <div class="col-lg-3">
                             <div class="logo pb-sm-30 pb-xs-30">
                                 <a href="index.html">
-                                    <img src="{% static 'home/assets/images/menu/logo/1.jpg' %}"} alt="" style="width:190px; height: 45px">
+                                    <img src="{% static 'home/assets/images/menu/logo/1.jpg' %}" alt=""
+                                        style="width:190px; height: 45px">
                                 </a>
                             </div>
                         </div>
@@ -169,7 +170,8 @@
                                             <ul class="minicart-product-list">
                                                 <li>
                                                     <a href="single-product.html" class="minicart-product-image">
-                                                        <img src="{% static 'home/assets/images/product/small-size/5.jpg' %}"} alt="cart products">
+                                                        <img src="{% static 'home/assets/images/product/small-size/5.jpg' %}"
+                                                            alt="cart products">
                                                     </a>
                                                     <div class="minicart-product-details">
                                                         <h6><a href="single-product.html">Aenean eu tristique</a></h6>
@@ -181,7 +183,8 @@
                                                 </li>
                                                 <li>
                                                     <a href="single-product.html" class="minicart-product-image">
-                                                        <img src="{% static 'home/assets/images/product/small-size/6.jpg' %}"} alt="cart products">
+                                                        <img src="{% static 'home/assets/images/product/small-size/6.jpg' %}"
+                                                            alt="cart products">
                                                     </a>
                                                     <div class="minicart-product-details">
                                                         <h6><a href="single-product.html">Aenean eu tristique</a></h6>
@@ -194,7 +197,8 @@
                                             </ul>
                                             <p class="minicart-total">SUBTOTAL: <span>80.00$</span></p>
                                             <div class="minicart-button">
-                                                <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                <a href="shopping-cart.html"
+                                                    class="li-button li-button-fullwidth li-button-dark">
                                                     <span>View Full Cart</span>
                                                 </a>
                                                 <a href="checkout.html" class="li-button li-button-fullwidth">
@@ -235,7 +239,8 @@
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="sub-dropdown-holder"><a href="blog-list-left-sidebar.html">Blog List View</a>
+                                                <li class="sub-dropdown-holder"><a
+                                                        href="blog-list-left-sidebar.html">Blog List View</a>
                                                     <ul class="hb-dropdown hb-sub-dropdown">
                                                         <li><a href="blog-list.html">Blog List</a></li>
                                                         <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a>
@@ -244,7 +249,8 @@
                                                                 Sidebar</a></li>
                                                     </ul>
                                                 </li>
-                                                <li class="sub-dropdown-holder"><a href="blog-details-left-sidebar.html">Blog Details</a>
+                                                <li class="sub-dropdown-holder"><a
+                                                        href="blog-details-left-sidebar.html">Blog Details</a>
                                                     <ul class="hb-dropdown hb-sub-dropdown">
                                                         <li><a href="blog-details-left-sidebar.html">Left Sidebar</a>
                                                         </li>
@@ -265,9 +271,11 @@
                                         </li>
                                         <li><a href="#">About Us</a></li>
                                         <li><a href="#">Contact</a></li>
-
-
-
+                                        <li><a href="{% url 'dashboard' %}">Home</a></li>
+                                        <li><a href="#">Log in</a></li>
+                                        <li><a href="#">Register</a></li>
+                                               
+                                        
                                     </ul>
                                 </nav>
                             </div>
