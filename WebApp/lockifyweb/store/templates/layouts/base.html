@@ -78,7 +78,7 @@
                                             <ul class="ht-setting-list">
                                                 <li><a href="login-register.html">My Account</a></li>
                                                 <li><a href="checkout.html">Checkout</a></li>
-                                                <li><a href="login-register.html">Sign In</a></li>
+                                                <li><a href="{% url 'login' %}">Sign In</a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -223,6 +223,8 @@
                                 <nav>
                                     <ul>
                                         <li class="dropdown-holder"><a href="/">Home</a></li>
+                                        <li class="dropdown-holder"><a href="{% url 'login' %}">Login</a></li>
+
                                         <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
                                             <ul class="hb-dropdown">
                                                 <li class="sub-dropdown-holder"><a href="blog-left-sidebar.html">Blog
