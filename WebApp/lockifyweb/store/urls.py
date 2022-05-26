@@ -24,4 +24,10 @@ urlpatterns = [
 	path('deleteDay/<str:pk>', views.deleteDay, name="delete_day"),
 
 
+	path('role/', views.viewRole, name="view_role"),
+	path('create_role/', views.createRole, name="create_role"),
+	path('updateRole/<str:pk>', views.updateRole, name="update_role"),
+	path('deleteRole/<str:pk>', views.deleteRole, name="delete_role"),
+
+
 ]

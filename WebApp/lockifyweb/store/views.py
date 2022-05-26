@@ -89,3 +89,49 @@ def deleteDay(request, pk):
     context={'days':days}
     messages.success(request, 'Delete succes!')
     return redirect('view_day')
+
+
+
+def viewRole(request):
+    roles = Role.objects.all()
+    context={'roles':roles}
+    return render(request, 'admin/role/index.html',context)
+
+
+def createRole(request):
+    
+    if request.method == 'POST':
+        role_name = request.POST.get('role_name')
+        description = request.POST.get('description')
+        if Role.objects.filter(role_name=role_name).first():
+            messages.error(request, 'duplicate datas!')
+            return redirect('create_role')
+        ret = Role.objects.create(role_name=role_name, description=description)
+        ret.save()
+        messages.success(request, 'succes!')
+        return redirect('view_role')
+    return render(request, 'admin/role/create.html') 
+
+
+def updateRole(request, pk):
+    role = Role.objects.get(id_role=pk)
+    context = {'role': role}
+    #form = RoomForm(instance=room)
+
+    if request.method == 'POST':
+        #print('Printing POST', request.POST)
+        role = Role.objects.get(id_role=pk)
+        role.role_name = request.POST['role_name']
+        role.description = request.POST['description']
+        role.save()
+        messages.success(request, 'Modification succes!')
+        return redirect('view_role')
+    return render(request, 'admin/role/edit.html',context)
+
+def deleteRole(request, pk):
+    role = Role.objects.get(id_role=pk)
+    role.delete()
+    roles = Role.objects.all()
+    context={'roles':roles}
+    messages.success(request, 'Delete succes!')
+    return redirect('view_role')
