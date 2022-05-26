@@ -50,3 +50,42 @@ def deleteRoom(request, pk):
 
 
     
+def viewDay(request):
+    days = Day.objects.all()
+    context={'days':days}
+    return render(request, 'admin/day/index.html',context)
+
+
+def createDay(request):
+    
+    if request.method == 'POST':
+        day_name = request.POST.get('day_name')
+        if Day.objects.filter(day_name=day_name).first():
+            messages.error(request, 'duplicate datas!')
+            return redirect('create_day')
+        ret = Day.objects.create(day_name=day_name)
+        ret.save()
+        messages.success(request, 'succes!')
+        return redirect('view_day')
+    return render(request, 'admin/day/create.html') 
+
+
+def updateDay(request, pk):
+    day = Day.objects.get(id_day=pk)
+    context = {'day': day}
+
+    if request.method == 'POST':
+        day = Day.objects.get(id_day=pk)
+        day.day_name = request.POST['day_name']
+        day.save()
+        messages.success(request, 'Modification succes!')
+        return redirect('view_day')
+    return render(request, 'admin/day/edit.html',context)
+
+def deleteDay(request, pk):
+    day = Day.objects.get(id_day=pk)
+    day.delete()
+    days = Day.objects.all()
+    context={'days':days}
+    messages.success(request, 'Delete succes!')
+    return redirect('view_day')
