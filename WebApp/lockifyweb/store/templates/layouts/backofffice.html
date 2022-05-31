@@ -96,18 +96,37 @@
                             <a href="#" class="nav-link">
                                 <i data-feather="server"></i><span>Banniere</span></a>
                         </li>
-                        <li class="dropdown ">
-                            <a href="#" class="nav-link">
-                                <i data-feather="server"></i><span>Serrure</span></a>
-                        </li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link">
-                                <i data-feather="server"></i><span>Produits</span></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link">
-                                <i data-feather="server"></i><span>Commandes</span></a>
-                        </li>
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="grid"></i><span>Gestion des serrures</span></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown ">
+                                    <a href="#" class="nav-link">
+                                        <i data-feather="server"></i><span>Serrure</span></a>
+                                </li>
+                              <li><a class="nav-link" href="advance-table.html">Advanced Table</a></li>
+                              <li><a class="nav-link" href="datatables.html">Datatable</a></li>
+                              <li><a class="nav-link" href="export-table.html">Export Table</a></li>
+                              <li><a class="nav-link" href="editable-table.html">Editable Table</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="grid"></i><span>Gestion des Utilisateurs</span></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li class="dropdown">
+                                    <a href="{% url 'view_user'  %}" class="nav-link">
+                                        <i data-feather="server"></i><span>Users</span></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="{% url 'view_role'  %}" class="nav-link">
+                                        <i data-feather="server"></i><span>Roles</span></a>
+                                </li>
+                              <li><a class="nav-link" href="export-table.html">Export Table</a></li>
+                              <li><a class="nav-link" href="editable-table.html">Editable Table</a></li>
+                            </ul>
+                          </li>
+                        
+                    
                         <li class="dropdown">
                             <a href="{% url 'view_room'  %}" class="nav-link">
                                 <i data-feather="server"></i><span>Pièces</span></a>
@@ -116,14 +135,8 @@
                             <a href="{% url 'view_day'  %}" class="nav-link">
                                 <i data-feather="server"></i><span>Days</span></a>
                         </li>
-                        <li class="dropdown">
-                            <a href="{% url 'view_role'  %}" class="nav-link">
-                                <i data-feather="server"></i><span>Roles</span></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="{% url 'view_user'  %}" class="nav-link">
-                                <i data-feather="server"></i><span>Users</span></a>
-                        </li>
+                        
+                        
                         <li class="dropdown">
                             <a href="#" class="nav-link">
                                 <i data-feather="server"></i><span>Historique</span></a>
