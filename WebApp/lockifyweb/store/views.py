@@ -1,6 +1,7 @@
 from multiprocessing import context
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from store.forms import MyUserForm
 from  .models import*
 from django.contrib import messages
 
@@ -116,7 +117,7 @@ def createRole(request):
 def updateRole(request, pk):
     role = Role.objects.get(id_role=pk)
     context = {'role': role}
-    #form = RoomForm(instance=room)
+    
 
     if request.method == 'POST':
         #print('Printing POST', request.POST)
@@ -135,3 +136,71 @@ def deleteRole(request, pk):
     context={'roles':roles}
     messages.success(request, 'Delete succes!')
     return redirect('view_role')
+
+
+def viewUser(request):
+    users = MyUser.objects.all()
+    context={'users':users}
+    return render(request, 'admin/users/index.html',context)
+
+
+def createUser(request):
+    roles = Role.objects.all()
+    context={'roles':roles}
+    if request.method == 'POST':
+        username = request.POST.get('name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        role_id = request.POST.get('role_id')
+        password= "userlockify2022"
+        # password = request.POST.get('password')
+        print("*******************************************")
+        print( role_id, password)
+        try:
+            if User.objects.filter(username = username).first():
+                messages.warning(request, 'Username is taken.')
+                return redirect('create_user')
+            if User.objects.filter(email = email).first():
+                messages.warning(request, 'Email is taken.')
+                return redirect('create_user')
+            user_obj = User(username = username, email = email)
+            user_obj.set_password(password)
+            user_obj.save()
+            promotor_obj = MyUser.objects.create(user = user_obj, phone_number = phone_number, role_id = role_id )
+            promotor_obj.save()
+            messages.success(request, 'succes!')
+            return redirect('view_user')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/users/create.html', context) 
+
+
+def updateUser(request, pk):
+    roles = Role.objects.all()
+    myuser = MyUser.objects.get(id=pk)
+    context = {'myuser':myuser,'roles':roles}
+    if request.method == 'POST':
+        user = User.objects.get(id=myuser.user.id)
+        user.email = request.POST['email']
+        user.username = request.POST['username']
+
+        myuser.phone_number = request.POST['phone_number']
+        role =  request.POST.get('role') 
+        myuser.role = Role.objects.get(id_role=role)
+        print(f'myuser: {myuser.role}')
+        myuser.user = user
+        user.save()
+        myuser.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_user')
+       
+    
+    return render(request , 'admin/users/edit.html', context)
+   
+def deleteUser(request, pk):
+    myuser = MyUser.objects.get(id=pk)
+    user = User.objects.get(id=myuser.user.id)
+    myuser.delete()
+    user.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_user')

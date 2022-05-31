@@ -14,10 +14,8 @@ class Role(models.Model):
 
 class MyUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    email= models.EmailField(primary_key=True)
-    name = models.CharField( max_length=100, null=False)
     phone_number = models.IntegerField(null=False)
-    role = models.ForeignKey(Role, on_delete= models.CASCADE) 
+    role = models.ForeignKey(Role, on_delete= models.CASCADE)
     
 
 class Room(models.Model):

@@ -1,0 +1,74 @@
+{% extends 'layouts/backofffice.html' %}
+{% load static %}
+{% block content %}
+    <section class="section">
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item active" aria-current="page">utilisateurs</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-right">
+                                <a href="{% url 'create_user'  %}" class="btn btn-primary">Ajouter</a>
+                            </div>
+                        </div>
+                        {% include 'messages.html' %}
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-2">
+                                    <thead>
+                                    <tr>
+                                        
+                                        <th>type</th>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Action</th>
+                                    </tr> 
+                                    </thead>
+                                    <tbody>
+                                    {% for store_myuser in users %}
+                                    <tr>
+                                        
+                                        <td>
+                                            {% if store_myuser.role_id == 1 %}
+                                                <div class="badge badge-success badge-shadow">Admin</div>
+                                            {% else %}
+                                                <div class="badge badge-danger badge-shadow">Utilisateur</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{store_myuser.user.email}}</td>
+                                        <td>{{store_myuser.user.username}}</td>
+                                        <td>{{store_myuser.phone_number}}</td>
+                                        <td>
+                                            <a class="btn btn-outline-danger" href="{% url 'update_user' store_myuser.id %}" title="edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger" href="{% url 'delete_user' store_myuser.id %}" title="delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

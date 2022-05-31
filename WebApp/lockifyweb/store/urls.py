@@ -30,4 +30,11 @@ urlpatterns = [
 	path('deleteRole/<str:pk>', views.deleteRole, name="delete_role"),
 
 
+	path('user/', views.viewUser, name="view_user"),
+	path('create_user/', views.createUser, name="create_user"),
+	path('updateUser/<str:pk>', views.updateUser, name="update_user"),
+	# path('updateUser/<str:pk>', views.UpdateUser.as_view(), name="update_user"),
+	path('deleteUser/<str:pk>', views.deleteUser, name="delete_user"),
+
+
 ]

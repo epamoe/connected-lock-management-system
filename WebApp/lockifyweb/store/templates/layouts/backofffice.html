@@ -19,8 +19,7 @@
     <link rel="stylesheet" href="{% static 'backend/assets/css/custom.css' %}">
     <link rel="stylesheet" href="{% static 'backend/assets/bundles/select2/dist/css/select2.min.css' %}">
 
-    <link rel="stylesheet" href="{% static 'toastr.css' %}">
-    <link rel='shortcut icon' type='image/x-icon' href="{% static 'backend/assets/img/favicon.ico'%}">
+    <link rel='shortcut icon' type='image/x-icon' href="{% static 'backend/assets/img/favicon.jpg'%}">
     
 </head>
 
@@ -120,6 +119,10 @@
                         <li class="dropdown">
                             <a href="{% url 'view_role'  %}" class="nav-link">
                                 <i data-feather="server"></i><span>Roles</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="{% url 'view_user'  %}" class="nav-link">
+                                <i data-feather="server"></i><span>Users</span></a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="nav-link">
