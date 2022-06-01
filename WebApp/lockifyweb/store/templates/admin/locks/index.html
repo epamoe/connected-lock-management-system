@@ -1,0 +1,74 @@
+{% extends 'layouts/backofffice.html' %}
+{% load static %}
+{% block content %}
+    <section class="section">
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item active" aria-current="page">Serrures</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-right">
+                                <a href="{% url 'create_lock'  %}" class="btn btn-primary">Ajouter</a>
+                            </div>
+                        </div>
+                        {% include 'messages.html' %}
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table-2">
+                                    <thead>
+                                    <tr>
+                                        <th>Nom de la serrure</th>
+                                        <th>Adresse MAC</th>
+                                        <th>Auto lock time</th>
+                                        <th>Lock data</th>
+                                        <th>Status</th>
+                                        <th>Utilisateur</th>
+                                        <th>Pièce</th>
+                                        <th>Pourcentage des piles</th>
+                                        <th>Action</th>
+                                    </tr> 
+                                    </thead>
+                                    <tbody>
+                                    {% for store_lock in locks %}
+                                    <tr>
+                                        <td>{{store_lock.lock_name}}</td>
+                                        <td>{{store_lock.lock_mac}}</td>
+                                        <td>{{store_lock.auto_lock_time}}</td>
+                                        <td>{{store_lock.lock_data}}</td>
+                                        <td>{{store_lock.lock_status}}</td>
+                                        <td>{{store_lock.user.user.username}}</td>
+                                        <td>{{store_lock.room.room_name}}</td>
+                                        <td>{{store_lock.lock_percent}}</td>
+                                        <td>
+                                            <a class="btn btn-outline-danger" href="{% url 'update_lock' store_lock.id_lock %}" title="edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger" href="{% url 'delete_lock' store_lock.id_lock %}" title="delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
