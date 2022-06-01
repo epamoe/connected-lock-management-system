@@ -36,10 +36,13 @@ urlpatterns = [
 	# path('updateUser/<str:pk>', views.UpdateUser.as_view(), name="update_user"),
 	path('deleteUser/<str:pk>', views.deleteUser, name="delete_user"),
 
-	path('look/', views.viewLock, name="view_lock"),
+	path('lock/', views.viewLock, name="view_lock"),
 	path('create_lock/', views.createLock, name="create_lock"),
 	path('updateLock/<str:pk>', views.updateLock, name="update_lock"),
 	path('deleteLock/<str:pk>', views.deleteLock, name="delete_lock"),
 
-
+	path('action/', views.viewAction, name="view_action"),
+	path('create_action/', views.createAction, name="create_action"),
+	path('updateAction/<str:pk>', views.updateAction, name="update_action"),
+	path('deleteAction/<str:pk>', views.deleteAction, name="delete_action"),
 ]

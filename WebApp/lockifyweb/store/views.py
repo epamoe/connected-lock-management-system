@@ -10,7 +10,6 @@ def viewRoom(request):
     context={'rooms':rooms}
     return render(request, 'admin/room/index.html',context)
 
-
 def createRoom(request):
     
     if request.method == 'POST':
@@ -24,7 +23,6 @@ def createRoom(request):
         messages.success(request, 'succes!')
         return redirect('view_room')
     return render(request, 'admin/room/create.html') 
-
 
 def updateRoom(request, pk):
     room = Room.objects.get(id_room=pk)
@@ -56,7 +54,6 @@ def viewDay(request):
     context={'days':days}
     return render(request, 'admin/day/index.html',context)
 
-
 def createDay(request):
     
     if request.method == 'POST':
@@ -69,7 +66,6 @@ def createDay(request):
         messages.success(request, 'succes!')
         return redirect('view_day')
     return render(request, 'admin/day/create.html') 
-
 
 def updateDay(request, pk):
     day = Day.objects.get(id_day=pk)
@@ -92,12 +88,10 @@ def deleteDay(request, pk):
     return redirect('view_day')
 
 
-
 def viewRole(request):
     roles = Role.objects.all()
     context={'roles':roles}
     return render(request, 'admin/role/index.html',context)
-
 
 def createRole(request):
     
@@ -112,7 +106,6 @@ def createRole(request):
         messages.success(request, 'succes!')
         return redirect('view_role')
     return render(request, 'admin/role/create.html') 
-
 
 def updateRole(request, pk):
     role = Role.objects.get(id_role=pk)
@@ -140,7 +133,6 @@ def viewUser(request):
     users = MyUser.objects.all()
     context={'users':users}
     return render(request, 'admin/users/index.html',context)
-
 
 def createUser(request):
     roles = Role.objects.all()
@@ -172,7 +164,6 @@ def createUser(request):
             print(e)
     return render(request , 'admin/users/create.html', context) 
 
-
 def updateUser(request, pk):
     roles = Role.objects.all()
     myuser = MyUser.objects.get(id=pk)
@@ -202,6 +193,7 @@ def deleteUser(request, pk):
     user.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_user')
+
 
 def viewLock(request):
     locks = Lock.objects.all()
@@ -266,3 +258,51 @@ def deleteLock(request, pk):
     lock.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_lock')
+
+def viewAction(request):
+    actions = Action.objects.all()
+    context={'actions':actions}
+    return render(request, 'admin/actions/index.html',context)
+
+def createAction(request):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    context={'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        action_name = request.POST.get('action_name')
+        lock_id = request.POST.get('lock_id')
+        user_id = request.POST.get('user_id')
+        try:
+            action = Action.objects.create(action_name = action_name, user_id = user_id, lock_id = lock_id )
+            action.save()
+            messages.success(request, 'succes!')
+            return redirect('view_action')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/actions/create.html', context) 
+
+def updateAction(request, pk):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    actions = Action.objects.get(id_action = pk)
+    context={'actions':actions,'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        action = Action.objects.get(id_action = pk)
+        action.action_name= request.POST['action_name']
+        lock = request.POST.get('lock_id')
+        myuser =  request.POST.get('user_id')
+        print(lock)
+        action.lock = Lock.objects.get(id_lock=lock)
+        action.user = MyUser.objects.get(id=myuser)
+        action.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_action')
+       
+    
+    return render(request , 'admin/actions/edit.html', context)
+   
+def deleteAction(request, pk):
+    action = Action.objects.get(id_action=pk)
+    action.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_action')
