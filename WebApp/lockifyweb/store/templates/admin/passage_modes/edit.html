@@ -1,0 +1,63 @@
+{% extends 'layouts/backofffice.html' %}
+{% load static %}
+{% block content %}
+<section class="section">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'view_lock'  %}">Passage modes</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Modify Passage modes</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'messages.html' %}
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            <a href="{% url 'view_passage_mode' %}" class="btn btn-primary">back</a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'update_passage_mode' passage_mode.id_passage_mode %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Date de debut</label>
+                                <input type="text" name="start_time" value = "{{passage_mode.start_time}}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date de fin</label>
+                                <input type="text" name="end_time" value = "{{passage_mode.end_time}}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input type="text" name="status" value = "{{passage_mode.status}}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Serrure</label>
+                                <select class="form-control select2" name="locks_id" value = "{{passage_mode.locks.locks_id}}" required>
+                                    {% for store_lock in locks %}
+                                        <option value="{{passage_mode.locks.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% endfor %}
+                                </select> 
+                            </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

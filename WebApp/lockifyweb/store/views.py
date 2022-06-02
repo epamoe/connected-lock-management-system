@@ -259,6 +259,7 @@ def deleteLock(request, pk):
     messages.success(request, 'Delete succes!')
     return redirect('view_lock')
 
+
 def viewAction(request):
     actions = Action.objects.all()
     context={'actions':actions}
@@ -306,3 +307,51 @@ def deleteAction(request, pk):
     action.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_action')
+
+
+
+def viewPassage_mode(request):
+    passage_modes = Passage_mode.objects.all()
+    context={'passage_modes':passage_modes}
+    return render(request, 'admin/passage_modes/index.html',context)
+
+def createPassage_mode(request):
+    locks = Lock.objects.all()
+    context={'locks':locks}
+    if request.method == 'POST':
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        status = request.POST.get('status')
+        lock_id = request.POST.get('locks_id')
+        print(lock_id)
+        try:
+
+            passage_mode = Passage_mode.objects.create(start_time = start_time, end_time = end_time, status=status, locks_id = lock_id )
+            passage_mode.save()
+            messages.success(request, 'succes!')
+            return redirect('view_passage_mode')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/passage_modes/create.html', context) 
+
+def updatePassage_mode(request, pk):
+    locks = Lock.objects.all()
+    passage_mode = Passage_mode.objects.get(id_passage_mode = pk)
+    context={'passage_mode':passage_mode,'locks':locks}
+    if request.method == 'POST':
+        passage_mode = Passage_mode.objects.get(id_passage_mode = pk)
+        passage_mode.start_time= request.POST['start_time']
+        passage_mode.end_time= request.POST['end_time']
+        passage_mode.status= request.POST['status']
+        lock = request.POST.get('locks_id')
+        passage_mode.lock = Lock.objects.get(id_lock=lock)
+        passage_mode.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_passage_mode')
+    return render(request , 'admin/passage_modes/edit.html', context)
+   
+def deletePassage_mode(request, pk):
+    passage_mode = Passage_mode.objects.get(id_passage_mode=pk)
+    passage_mode.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_passage_mode')

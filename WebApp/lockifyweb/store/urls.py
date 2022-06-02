@@ -45,4 +45,12 @@ urlpatterns = [
 	path('create_action/', views.createAction, name="create_action"),
 	path('updateAction/<str:pk>', views.updateAction, name="update_action"),
 	path('deleteAction/<str:pk>', views.deleteAction, name="delete_action"),
+
+	path('passage_mode/', views.viewPassage_mode, name="view_passage_mode"),
+	path('create_passage_mode/', views.createPassage_mode, name="create_passage_mode"),
+	path('updatePassage_mode/<str:pk>', views.updatePassage_mode, name="update_passage_mode"),
+	path('deletePassage_mode/<str:pk>', views.deletePassage_mode, name="delete_passage_mode"),
+
+
+
 ]
