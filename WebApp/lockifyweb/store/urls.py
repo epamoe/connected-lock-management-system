@@ -51,6 +51,23 @@ urlpatterns = [
 	path('updatePassage_mode/<str:pk>', views.updatePassage_mode, name="update_passage_mode"),
 	path('deletePassage_mode/<str:pk>', views.deletePassage_mode, name="delete_passage_mode"),
 
+	path('code/', views.viewCode, name="view_code"),
+	path('create_code/', views.createCode, name="create_code"),
+	path('updateCode/<str:pk>', views.updateCode, name="update_code"),
+	path('deleteCode/<str:pk>', views.deleteCode, name="delete_code"),
 
+	path('card/', views.viewCard, name="view_card"),
+	path('create_card/', views.createCard, name="create_card"),
+	path('updateCard/<str:pk>', views.updateCard, name="update_card"),
+	path('deleteCard/<str:pk>', views.deleteCard, name="delete_card"),
 
+	path('fingerPrint/', views.viewFingerPrint, name="view_fingerPrint"),
+	path('create_fingerPrint/', views.createFingerPrint, name="create_fingerPrint"),
+	path('updateFingerPrint/<str:pk>', views.updateFingerPrint, name="update_fingerPrint"),
+	path('deleteFingerPrint/<str:pk>', views.deleteFingerPrint, name="delete_fingerPrint"),
+
+	path('bluetooth/', views.viewBluetooth, name="view_bluetooth"),
+	path('create_bluetooth/', views.createBluetooth, name="create_bluetooth"),
+	path('updateBluetooth/<str:pk>', views.updateBluetooth, name="update_bluetooth"),
+	path('deleteBluetooth/<str:pk>', views.deleteBluetooth, name="delete_bluetooth"),
 ]

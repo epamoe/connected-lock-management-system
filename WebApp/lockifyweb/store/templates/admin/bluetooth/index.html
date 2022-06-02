@@ -9,7 +9,7 @@
                         <div class="card-body">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item active" aria-current="page">Passage mode</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Bluetooth</li>
                                 </ol>
                             </nav>
                         </div>
@@ -21,7 +21,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="float-right">
-                                <a href="{% url 'create_passage_mode'  %}" class="btn btn-primary">Ajouter</a>
+                                <a href="{% url 'create_bluetooth'  %}" class="btn btn-primary">Ajouter</a>
                             </div>
                         </div>
                         {% include 'messages.html' %}
@@ -30,25 +30,29 @@
                                 <table class="table table-striped" id="table-2">
                                     <thead>
                                     <tr>
+                                        <th>Description</th>
                                         <th>Date de debut</th>
                                         <th>Date de fin</th>
-                                        <th>Status</th>
+                                        <th>is set</th>
+                                        <th>Utilisateur</th>
                                         <th>Serrures</th>
                                         <th>Action</th>
                                     </tr> 
                                     </thead>
                                     <tbody>
-                                    {% for store_passage_mode in passage_modes %}
+                                    {% for store_bluetooth in bluetooths %}
                                     <tr>
-                                        <td>{{store_passage_mode.start_date}}</td>
-                                        <td>{{store_passage_mode.end_date}}</td>
-                                        <td>{{store_passage_mode.status}}</td>
-                                        <td>{{store_passage_mode.locks.lock_name}}</td>
+                                        <td>{{store_bluetooth.description}}</td>
+                                        <td>{{store_bluetooth.start_date}}</td>
+                                        <td>{{store_bluetooth.end_date}}</td>
+                                        <td>{{store_bluetooth.is_set}}</td>
+                                        <td>{{store_bluetooth.user.user.username}}</td>
+                                        <td>{{store_bluetooth.lock.lock_name}}</td>
                                         <td>
-                                            <a class="btn btn-outline-danger" href="{% url 'update_passage_mode' store_passage_mode.id_passage_mode %}" title="edit">
+                                            <a class="btn btn-outline-danger" href="{% url 'update_bluetooth' store_bluetooth.id %}" title="edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-outline-danger" href="{% url 'delete_passage_mode' store_passage_mode.id_passage_mode %}" title="delete">
+                                            <a class="btn btn-outline-danger" href="{% url 'delete_bluetooth' store_bluetooth.id %}" title="delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>

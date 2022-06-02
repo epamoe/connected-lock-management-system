@@ -42,11 +42,8 @@ def updateRoom(request, pk):
 def deleteRoom(request, pk):
     room = Room.objects.get(id_room=pk)
     room.delete()
-    rooms = Room.objects.all()
-    context={'rooms':rooms}
     messages.success(request, 'Delete succes!')
     return redirect('view_room')
-
 
     
 def viewDay(request):
@@ -309,7 +306,6 @@ def deleteAction(request, pk):
     return redirect('view_action')
 
 
-
 def viewPassage_mode(request):
     passage_modes = Passage_mode.objects.all()
     context={'passage_modes':passage_modes}
@@ -319,14 +315,14 @@ def createPassage_mode(request):
     locks = Lock.objects.all()
     context={'locks':locks}
     if request.method == 'POST':
-        start_time = request.POST.get('start_time')
-        end_time = request.POST.get('end_time')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
         status = request.POST.get('status')
         lock_id = request.POST.get('locks_id')
         print(lock_id)
         try:
 
-            passage_mode = Passage_mode.objects.create(start_time = start_time, end_time = end_time, status=status, locks_id = lock_id )
+            passage_mode = Passage_mode.objects.create(start_date = start_date, end_date = end_date, status=status, locks_id = lock_id )
             passage_mode.save()
             messages.success(request, 'succes!')
             return redirect('view_passage_mode')
@@ -340,8 +336,8 @@ def updatePassage_mode(request, pk):
     context={'passage_mode':passage_mode,'locks':locks}
     if request.method == 'POST':
         passage_mode = Passage_mode.objects.get(id_passage_mode = pk)
-        passage_mode.start_time= request.POST['start_time']
-        passage_mode.end_time= request.POST['end_time']
+        passage_mode.start_date= request.POST['start_date']
+        passage_mode.end_date= request.POST['end_date']
         passage_mode.status= request.POST['status']
         lock = request.POST.get('locks_id')
         passage_mode.lock = Lock.objects.get(id_lock=lock)
@@ -355,3 +351,228 @@ def deletePassage_mode(request, pk):
     passage_mode.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_passage_mode')
+
+
+
+def viewCode(request):
+    codes = Code.objects.all()
+    context={'codes':codes}
+    return render(request, 'admin/codes/index.html',context)
+
+def createCode(request):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    context={'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        description = request.POST.get('description')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        is_set = request.POST.get('is_set')
+        lock_id = request.POST.get('lock_id')
+        user_id = request.POST.get('user_id')
+        try:
+            code = Code.objects.create(code = code, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
+            code.save()
+            messages.success(request, 'succes!')
+            return redirect('view_code')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/codes/create.html', context) 
+
+def updateCode(request, pk):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    codes = Code.objects.get(id = pk)
+    context={'codes':codes,'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        code = Code.objects.get(id = pk)
+        code.code= request.POST['code']
+        code.description = request.POST['description']
+        code.start_date = request.POST['start_date']
+        code.end_date = request.POST['end_date']
+        code.is_set = request.POST['is_set']
+        lock = request.POST.get('lock_id')
+        myuser =  request.POST.get('user_id')
+        print(lock)
+        code.lock = Lock.objects.get(id_lock=lock)
+        code.user = MyUser.objects.get(id=myuser)
+        code.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_code')
+       
+    
+    return render(request , 'admin/codes/edit.html', context)
+   
+def deleteCode(request, pk):
+    code = Code.objects.get(id=pk)
+    code.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_code')
+
+
+def viewCard(request):
+    cards = Card.objects.all()
+    context={'cards':cards}
+    return render(request, 'admin/cards/index.html',context)
+
+def createCard(request):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    context={'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        card = request.POST.get('card')
+        description = request.POST.get('description')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        is_set = request.POST.get('is_set')
+        lock_id = request.POST.get('lock_id')
+        user_id = request.POST.get('user_id')
+        try:
+            card = Card.objects.create(card = card, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
+            card.save()
+            messages.success(request, 'succes!')
+            return redirect('view_card')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/cards/create.html', context) 
+
+def updateCard(request, pk):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    cards = Card.objects.get(id = pk)
+    context={'cards':cards,'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        card = Card.objects.get(id = pk)
+        card.card= request.POST['card']
+        card.description = request.POST['description']
+        card.start_date = request.POST['start_date']
+        card.end_date = request.POST['end_date']
+        card.is_set = request.POST['is_set']
+        lock = request.POST.get('lock_id')
+        myuser =  request.POST.get('user_id')
+        print(lock)
+        card.lock = Lock.objects.get(id_lock=lock)
+        card.user = MyUser.objects.get(id=myuser)
+        card.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_card')
+       
+    
+    return render(request , 'admin/cards/edit.html', context)
+   
+def deleteCard(request, pk):
+    card = Card.objects.get(id=pk)
+    card.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_card')
+
+def viewFingerPrint(request):
+    fingerPrints = FingerPrint.objects.all()
+    context={'fingerPrints':fingerPrints}
+    return render(request, 'admin/fingerPrints/index.html',context)
+
+def createFingerPrint(request):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    context={'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        fingerPrint = request.POST.get('fingerPrint')
+        description = request.POST.get('description')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        is_set = request.POST.get('is_set')
+        lock_id = request.POST.get('lock_id')
+        user_id = request.POST.get('user_id')
+        try:
+            fingerPrint = FingerPrint.objects.create(fingerPrint = fingerPrint, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
+            fingerPrint.save()
+            messages.success(request, 'succes!')
+            return redirect('view_fingerPrint')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/fingerPrints/create.html', context) 
+
+def updateFingerPrint(request, pk):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    fingerPrints = FingerPrint.objects.get(id = pk)
+    context={'fingerPrints':fingerPrints,'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        fingerPrint = FingerPrint.objects.get(id = pk)
+        fingerPrint.fingerPrint= request.POST['fingerPrint']
+        fingerPrint.description = request.POST['description']
+        fingerPrint.start_date = request.POST['start_date']
+        fingerPrint.end_date = request.POST['end_date']
+        fingerPrint.is_set = request.POST['is_set']
+        lock = request.POST.get('lock_id')
+        myuser =  request.POST.get('user_id')
+        print(lock)
+        fingerPrint.lock = Lock.objects.get(id_lock=lock)
+        fingerPrint.user = MyUser.objects.get(id=myuser)
+        fingerPrint.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_fingerPrint')
+       
+    
+    return render(request , 'admin/fingerPrints/edit.html', context)
+   
+def deleteFingerPrint(request, pk):
+    fingerPrint = FingerPrint.objects.get(id=pk)
+    fingerPrint.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_fingerPrint')
+
+def viewBluetooth(request):
+    bluetooths = Bluetooth.objects.all()
+    context={'bluetooths':bluetooths}
+    return render(request, 'admin/bluetooth/index.html',context)
+
+def createBluetooth(request):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    context={'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        is_set = request.POST.get('is_set')
+        lock_id = request.POST.get('lock_id')
+        user_id = request.POST.get('user_id')
+        try:
+            bluetooth = Bluetooth.objects.create( description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
+            bluetooth.save()
+            messages.success(request, 'succes!')
+            return redirect('view_bluetooth')
+        except Exception as e:
+            print(e)
+    return render(request , 'admin/bluetooth/create.html', context) 
+
+def updateBluetooth(request, pk):
+    locks = Lock.objects.all()
+    myusers = MyUser.objects.all()
+    bluetooths = Bluetooth.objects.get(id = pk)
+    context={'bluetooths':bluetooths,'locks':locks, 'myusers':myusers}
+    if request.method == 'POST':
+        bluetooth = Bluetooth.objects.get(id = pk)
+        bluetooth.description = request.POST['description']
+        bluetooth.start_date = request.POST['start_date']
+        bluetooth.end_date = request.POST['end_date']
+        bluetooth.is_set = request.POST['is_set']
+        lock = request.POST.get('lock_id')
+        myuser =  request.POST.get('user_id')
+        print(lock)
+        bluetooth.lock = Lock.objects.get(id_lock=lock)
+        bluetooth.user = MyUser.objects.get(id=myuser)
+        bluetooth.save()
+        messages.success(request, 'Modifications succes!')
+        return redirect('view_bluetooth')
+       
+    
+    return render(request , 'admin/bluetooth/edit.html', context)
+   
+def deleteBluetooth(request, pk):
+    bluetooth = Bluetooth.objects.get(id=pk)
+    bluetooth.delete()
+    messages.success(request, 'Delete succes!')
+    return redirect('view_bluetooth')

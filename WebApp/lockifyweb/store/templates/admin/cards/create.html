@@ -10,8 +10,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'view_action'  %}">Passage mode</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">add passage modes</li>
+                                <li class="breadcrumb-item"><a href="{% url 'view_card'  %}">Cards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">add card</li>
                             </ol>
                         </nav>
                     </div>
@@ -24,13 +24,21 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            <a href="{% url 'view_passage_mode'  %}" class="btn btn-primary">back</a>
+                            <a href="{% url 'view_card'  %}" class="btn btn-primary">back</a>
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{% url 'create_passage_mode' %}" method="POST">
+                        <form action="{% url 'create_card' %}" method="POST">
                             {% csrf_token %}
                             <div class="form-group">
+                                    <label>carte</label>
+                                    <input type="text" name="card" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" name="description" class="form-control" required>
+                                </div>
+                                <div class="form-group">
                                     <label>Date de debut</label>
                                     <input type="text" name="start_date" class="form-control" required>
                                 </div>
@@ -39,13 +47,20 @@
                                     <input type="text" name="end_date" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Status</label>
-                                    <input type="text" name="status" class="form-control" required>
+                                    <label>is set</label>
+                                    <input type="text" name="is_set" class="form-control" required>
                                 </div>
                                 <div class="form-group">
+                                    <label>Utilisateur</label>
+                                    <select class="form-control select2" name="user_id" required>
+                                        {% for store_myuser in myusers %}
+                                            <option value="{{store_myuser.id}}">{{store_myuser.user.username }}</option>
+                                        {% endfor %}
+                                    </select> 
+                                </div>
                                 <div class="form-group">
                                     <label>Serrure</label>
-                                    <select class="form-control select2" name="locks_id" required>
+                                    <select class="form-control select2" name="lock_id" required>
                                         {% for store_lock in locks %}
                                             <option value="{{store_lock.id_lock}}">{{store_lock.lock_name }}</option>
                                         {% endfor %}
