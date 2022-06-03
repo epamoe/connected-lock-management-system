@@ -576,3 +576,24 @@ def deleteBluetooth(request, pk):
     bluetooth.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_bluetooth')
+
+def viewHistory(request):
+    histories = History.objects.all()
+    context={'histories':histories}
+    return render(request, 'admin/histories/index.html',context)
+
+# def createHistory(request):
+#     days = Day.objects.all()
+#     actions = Action.objects.all()
+#     context={'days':days, 'actions':actions}
+#     if request.method == 'POST':
+#         action_id = request.POST.get('action_id')
+#         day_id = request.POST.get('day_id')
+#         try:
+#             history = History.objects.create(action_id = action_id, day_id = day_id )
+#             history.save()
+#             messages.success(request, 'succes!')
+#             return redirect('view_history')
+#         except Exception as e:
+#             print(e)
+#     return render(request , 'admin/histories/create.html', context) 

@@ -70,4 +70,7 @@ urlpatterns = [
 	path('create_bluetooth/', views.createBluetooth, name="create_bluetooth"),
 	path('updateBluetooth/<str:pk>', views.updateBluetooth, name="update_bluetooth"),
 	path('deleteBluetooth/<str:pk>', views.deleteBluetooth, name="delete_bluetooth"),
+
+	path('history/', views.viewHistory, name="view_history"),
+	# path('deleteHistory/<str:pk>', views.deleteHistory, name="delete_history"),
 ]
