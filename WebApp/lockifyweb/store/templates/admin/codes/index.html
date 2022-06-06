@@ -45,8 +45,8 @@
                                     <tr>
                                         <td>{{store_code.code}}</td>
                                         <td>{{store_code.description}}</td>
-                                        <td>{{store_code.start_date}}</td>
-                                        <td>{{store_code.end_date}}</td>
+                                        <td>{{store_code.start_date|date:"Y-n-d h:m:s"}}</td>
+                                        <td>{{store_code.end_date|date:"Y-n-d h:m:s"}}</td>
                                         <td>{{store_code.is_set}}</td>
                                         <td>{{store_code.user.user.username}}</td>
                                         <td>{{store_code.lock.lock_name}}</td>

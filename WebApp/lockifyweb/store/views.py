@@ -5,46 +5,6 @@ from store.forms import MyUserForm
 from  .models import*
 from django.contrib import messages
 
-def viewRoom(request):
-    rooms = Room.objects.all()
-    context={'rooms':rooms}
-    return render(request, 'admin/room/index.html',context)
-
-def createRoom(request):
-    
-    if request.method == 'POST':
-        room_name = request.POST.get('room_name')
-        description = request.POST.get('description')
-        if Room.objects.filter(room_name=room_name).first():
-            messages.error(request, 'duplicate datas!')
-            return redirect('create_room')
-        ret = Room.objects.create(room_name=room_name, description=description)
-        ret.save()
-        messages.success(request, 'succes!')
-        return redirect('view_room')
-    return render(request, 'admin/room/create.html') 
-
-def updateRoom(request, pk):
-    room = Room.objects.get(id_room=pk)
-    context = {'room': room}
-    #form = RoomForm(instance=room)
-
-    if request.method == 'POST':
-        #print('Printing POST', request.POST)
-        room = Room.objects.get(id_room=pk)
-        room.room_name = request.POST['room_name']
-        room.description = request.POST['description']
-        room.save()
-        messages.success(request, 'Modification succes!')
-        return redirect('view_room')
-    return render(request, 'admin/room/edit.html',context)
-
-def deleteRoom(request, pk):
-    room = Room.objects.get(id_room=pk)
-    room.delete()
-    messages.success(request, 'Delete succes!')
-    return redirect('view_room')
-
     
 def viewDay(request):
     days = Day.objects.all()
@@ -198,9 +158,8 @@ def viewLock(request):
     return render(request, 'admin/locks/index.html',context)
 
 def createLock(request):
-    rooms = Room.objects.all()
     myusers = MyUser.objects.all()
-    context={'rooms':rooms, 'myusers':myusers}
+    context={ 'myusers':myusers}
     if request.method == 'POST':
         lock_name = request.POST.get('lock_name')
         lock_mac = request.POST.get('lock_mac')
@@ -208,7 +167,6 @@ def createLock(request):
         lock_data = request.POST.get('lock_data')
         lock_status = request.POST.get('lock_status')
         lock_percent = request.POST.get('lock_percent')
-        room_id = request.POST.get('room_id')
         user_id = request.POST.get('user_id')
         try:
             if Lock.objects.filter(lock_mac = lock_mac).first():
@@ -217,7 +175,7 @@ def createLock(request):
             if Lock.objects.filter(lock_name = lock_name).first():
                 messages.warning(request, ' lock name is taken.')
                 return redirect('create_lock')
-            lock = Lock.objects.create(lock_name = lock_name, lock_mac = lock_mac, auto_lock_time = auto_lock_time, lock_data = lock_data, lock_status = lock_status, lock_percent = lock_percent, user_id = user_id,  room_id = room_id )
+            lock = Lock.objects.create(lock_name = lock_name, lock_mac = lock_mac, auto_lock_time = auto_lock_time, lock_data = lock_data, lock_status = lock_status, lock_percent = lock_percent, user_id = user_id)
             lock.save()
             messages.success(request, 'succes!')
             return redirect('view_lock')
@@ -226,10 +184,9 @@ def createLock(request):
     return render(request , 'admin/locks/create.html', context) 
 
 def updateLock(request, pk):
-    rooms = Room.objects.all()
     myusers = MyUser.objects.all()
     locks = Lock.objects.get(id_lock = pk)
-    context={'locks':locks,'rooms':rooms, 'myusers':myusers}
+    context={ 'myusers':myusers}
     if request.method == 'POST':
         lock = Lock.objects.get(id_lock = pk)
         lock.lock_name= request.POST['lock_name']
@@ -238,10 +195,8 @@ def updateLock(request, pk):
         lock.lock_data = request.POST['lock_data']
         lock.lock_status = request.POST['lock_status']
         lock.lock_percent = request.POST['lock_percent']
-        room = request.POST.get('room_id')
         myuser =  request.POST.get('user_id')
         print(myuser)
-        lock.room = Room.objects.get(id_room=room)
         lock.user = MyUser.objects.get(id=myuser)
         lock.save()
         messages.success(request, 'Modifications succes!')
@@ -582,18 +537,3 @@ def viewHistory(request):
     context={'histories':histories}
     return render(request, 'admin/histories/index.html',context)
 
-# def createHistory(request):
-#     days = Day.objects.all()
-#     actions = Action.objects.all()
-#     context={'days':days, 'actions':actions}
-#     if request.method == 'POST':
-#         action_id = request.POST.get('action_id')
-#         day_id = request.POST.get('day_id')
-#         try:
-#             history = History.objects.create(action_id = action_id, day_id = day_id )
-#             history.save()
-#             messages.success(request, 'succes!')
-#             return redirect('view_history')
-#         except Exception as e:
-#             print(e)
-#     return render(request , 'admin/histories/create.html', context) 

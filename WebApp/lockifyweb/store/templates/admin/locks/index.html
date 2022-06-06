@@ -36,7 +36,6 @@
                                         <th>Lock data</th>
                                         <th>Status</th>
                                         <th>Utilisateur</th>
-                                        <th>Pièce</th>
                                         <th>Pourcentage des piles</th>
                                         <th>Action</th>
                                     </tr> 
@@ -50,7 +49,6 @@
                                         <td>{{store_lock.lock_data}}</td>
                                         <td>{{store_lock.lock_status}}</td>
                                         <td>{{store_lock.user.user.username}}</td>
-                                        <td>{{store_lock.room.room_name}}</td>
                                         <td>{{store_lock.lock_percent}}</td>
                                         <td>
                                             <a class="btn btn-outline-danger" href="{% url 'update_lock' store_lock.id_lock %}" title="edit">

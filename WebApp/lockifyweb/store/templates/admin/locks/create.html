@@ -10,7 +10,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'view_room'  %}">Locks</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'view_lock'  %}">Locks</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">add locks</li>
                             </ol>
                         </nav>
@@ -55,14 +55,6 @@
                                     <select class="form-control select2" name="user_id" required>
                                         {% for store_myuser in myusers %}
                                             <option value="{{store_myuser.id}}">{{store_myuser.user.username }}</option>
-                                        {% endfor %}
-                                    </select> 
-                                </div>
-                                <div class="form-group">
-                                    <label>Pièce</label>
-                                    <select class="form-control select2" name="room_id" required>
-                                        {% for store_room in rooms %}
-                                            <option value="{{store_room.id_room}}">{{store_room.room_name }}</option>
                                         {% endfor %}
                                     </select> 
                                 </div>
