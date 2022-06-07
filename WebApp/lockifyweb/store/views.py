@@ -1,16 +1,49 @@
 from multiprocessing import context
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from store.forms import MyUserForm
 from  .models import*
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-    
+def log(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        print(email, password)
+
+        user_obj = User.objects.filter(email = email).first()
+
+        if user_obj is None:
+            messages.error(request, 'User not found.')
+            return redirect('log')
+
+        if not user_obj.is_active:
+            messages.error(request, 'Profile is not verified check your mail.')
+            return redirect('log')
+
+        user = authenticate(username = user_obj.username , password = password)
+        if user is None:
+            messages.error(request, 'Wrong password.')
+            return redirect('log')
+        
+        login(request , user)
+        return redirect('dashboard')
+
+    return render(request , 'registration/login.html')
+
+
+def logout_lockify(request):
+    logout(request)
+    return redirect('/')
+
+@login_required(login_url = 'log')    
 def viewDay(request):
     days = Day.objects.all()
     context={'days':days}
     return render(request, 'admin/day/index.html',context)
 
+@login_required(login_url = 'log')
 def createDay(request):
     
     if request.method == 'POST':
@@ -24,6 +57,7 @@ def createDay(request):
         return redirect('view_day')
     return render(request, 'admin/day/create.html') 
 
+@login_required(login_url = 'log')
 def updateDay(request, pk):
     day = Day.objects.get(id_day=pk)
     context = {'day': day}
@@ -36,6 +70,7 @@ def updateDay(request, pk):
         return redirect('view_day')
     return render(request, 'admin/day/edit.html',context)
 
+@login_required(login_url = 'log')
 def deleteDay(request, pk):
     day = Day.objects.get(id_day=pk)
     day.delete()
@@ -44,12 +79,14 @@ def deleteDay(request, pk):
     messages.success(request, 'Delete succes!')
     return redirect('view_day')
 
-
+@login_required(login_url = 'log')
 def viewRole(request):
     roles = Role.objects.all()
     context={'roles':roles}
     return render(request, 'admin/role/index.html',context)
 
+
+@login_required(login_url = 'log')
 def createRole(request):
     
     if request.method == 'POST':
@@ -64,6 +101,7 @@ def createRole(request):
         return redirect('view_role')
     return render(request, 'admin/role/create.html') 
 
+@login_required(login_url = 'log')
 def updateRole(request, pk):
     role = Role.objects.get(id_role=pk)
     context = {'role': role}
@@ -79,6 +117,7 @@ def updateRole(request, pk):
         return redirect('view_role')
     return render(request, 'admin/role/edit.html',context)
 
+@login_required(login_url = 'log')
 def deleteRole(request, pk):
     role = Role.objects.get(id_role=pk)
     role.delete()
@@ -86,11 +125,13 @@ def deleteRole(request, pk):
     return redirect('view_role')
 
 
+@login_required(login_url = 'log')
 def viewUser(request):
     users = MyUser.objects.all()
     context={'users':users}
     return render(request, 'admin/users/index.html',context)
 
+@login_required(login_url = 'log')
 def createUser(request):
     roles = Role.objects.all()
     context={'roles':roles}
@@ -99,8 +140,8 @@ def createUser(request):
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
         role_id = request.POST.get('role_id')
-        password= "userlockify2022"
-        # password = request.POST.get('password')
+        #password= 'userlockify2022'
+        password = request.POST.get('password')
         print("*******************************************")
         print( role_id, password)
         try:
@@ -121,6 +162,7 @@ def createUser(request):
             print(e)
     return render(request , 'admin/users/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateUser(request, pk):
     roles = Role.objects.all()
     myuser = MyUser.objects.get(id=pk)
@@ -142,7 +184,8 @@ def updateUser(request, pk):
        
     
     return render(request , 'admin/users/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deleteUser(request, pk):
     myuser = MyUser.objects.get(id=pk)
     user = User.objects.get(id=myuser.user.id)
@@ -152,11 +195,13 @@ def deleteUser(request, pk):
     return redirect('view_user')
 
 
+@login_required(login_url = 'log')
 def viewLock(request):
     locks = Lock.objects.all()
     context={'locks':locks}
     return render(request, 'admin/locks/index.html',context)
 
+@login_required(login_url = 'log')
 def createLock(request):
     myusers = MyUser.objects.all()
     context={ 'myusers':myusers}
@@ -183,6 +228,7 @@ def createLock(request):
             print(e)
     return render(request , 'admin/locks/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateLock(request, pk):
     myusers = MyUser.objects.all()
     locks = Lock.objects.get(id_lock = pk)
@@ -204,7 +250,8 @@ def updateLock(request, pk):
        
     
     return render(request , 'admin/locks/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deleteLock(request, pk):
     lock = Lock.objects.get(id_lock=pk)
     lock.delete()
@@ -212,11 +259,13 @@ def deleteLock(request, pk):
     return redirect('view_lock')
 
 
+@login_required(login_url = 'log')
 def viewAction(request):
     actions = Action.objects.all()
     context={'actions':actions}
     return render(request, 'admin/actions/index.html',context)
 
+@login_required(login_url = 'log')
 def createAction(request):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -234,6 +283,7 @@ def createAction(request):
             print(e)
     return render(request , 'admin/actions/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateAction(request, pk):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -253,7 +303,8 @@ def updateAction(request, pk):
        
     
     return render(request , 'admin/actions/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deleteAction(request, pk):
     action = Action.objects.get(id_action=pk)
     action.delete()
@@ -261,11 +312,13 @@ def deleteAction(request, pk):
     return redirect('view_action')
 
 
+@login_required(login_url = 'log')
 def viewPassage_mode(request):
     passage_modes = Passage_mode.objects.all()
     context={'passage_modes':passage_modes}
     return render(request, 'admin/passage_modes/index.html',context)
 
+@login_required(login_url = 'log')
 def createPassage_mode(request):
     locks = Lock.objects.all()
     context={'locks':locks}
@@ -285,6 +338,7 @@ def createPassage_mode(request):
             print(e)
     return render(request , 'admin/passage_modes/create.html', context) 
 
+@login_required(login_url = 'log')
 def updatePassage_mode(request, pk):
     locks = Lock.objects.all()
     passage_mode = Passage_mode.objects.get(id_passage_mode = pk)
@@ -300,7 +354,8 @@ def updatePassage_mode(request, pk):
         messages.success(request, 'Modifications succes!')
         return redirect('view_passage_mode')
     return render(request , 'admin/passage_modes/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deletePassage_mode(request, pk):
     passage_mode = Passage_mode.objects.get(id_passage_mode=pk)
     passage_mode.delete()
@@ -308,12 +363,13 @@ def deletePassage_mode(request, pk):
     return redirect('view_passage_mode')
 
 
-
+@login_required(login_url = 'log')
 def viewCode(request):
     codes = Code.objects.all()
     context={'codes':codes}
     return render(request, 'admin/codes/index.html',context)
 
+@login_required(login_url = 'log')
 def createCode(request):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -335,6 +391,7 @@ def createCode(request):
             print(e)
     return render(request , 'admin/codes/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateCode(request, pk):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -358,7 +415,8 @@ def updateCode(request, pk):
        
     
     return render(request , 'admin/codes/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deleteCode(request, pk):
     code = Code.objects.get(id=pk)
     code.delete()
@@ -366,11 +424,13 @@ def deleteCode(request, pk):
     return redirect('view_code')
 
 
+@login_required(login_url = 'log')
 def viewCard(request):
     cards = Card.objects.all()
     context={'cards':cards}
     return render(request, 'admin/cards/index.html',context)
 
+@login_required(login_url = 'log')
 def createCard(request):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -392,6 +452,7 @@ def createCard(request):
             print(e)
     return render(request , 'admin/cards/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateCard(request, pk):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -415,18 +476,22 @@ def updateCard(request, pk):
        
     
     return render(request , 'admin/cards/edit.html', context)
-   
+
+@login_required(login_url = 'log')   
 def deleteCard(request, pk):
     card = Card.objects.get(id=pk)
     card.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_card')
 
+
+@login_required(login_url = 'log')
 def viewFingerPrint(request):
     fingerPrints = FingerPrint.objects.all()
     context={'fingerPrints':fingerPrints}
     return render(request, 'admin/fingerPrints/index.html',context)
 
+@login_required(login_url = 'log')
 def createFingerPrint(request):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -448,6 +513,7 @@ def createFingerPrint(request):
             print(e)
     return render(request , 'admin/fingerPrints/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateFingerPrint(request, pk):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -471,18 +537,22 @@ def updateFingerPrint(request, pk):
        
     
     return render(request , 'admin/fingerPrints/edit.html', context)
-   
+
+@login_required(login_url = 'log') 
 def deleteFingerPrint(request, pk):
     fingerPrint = FingerPrint.objects.get(id=pk)
     fingerPrint.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_fingerPrint')
 
+
+@login_required(login_url = 'log')
 def viewBluetooth(request):
     bluetooths = Bluetooth.objects.all()
     context={'bluetooths':bluetooths}
     return render(request, 'admin/bluetooth/index.html',context)
 
+@login_required(login_url = 'log')
 def createBluetooth(request):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -503,6 +573,7 @@ def createBluetooth(request):
             print(e)
     return render(request , 'admin/bluetooth/create.html', context) 
 
+@login_required(login_url = 'log')
 def updateBluetooth(request, pk):
     locks = Lock.objects.all()
     myusers = MyUser.objects.all()
@@ -525,13 +596,15 @@ def updateBluetooth(request, pk):
        
     
     return render(request , 'admin/bluetooth/edit.html', context)
-   
+
+@login_required(login_url = 'log')  
 def deleteBluetooth(request, pk):
     bluetooth = Bluetooth.objects.get(id=pk)
     bluetooth.delete()
     messages.success(request, 'Delete succes!')
     return redirect('view_bluetooth')
 
+@login_required(login_url = 'log')
 def viewHistory(request):
     histories = History.objects.all()
     context={'histories':histories}

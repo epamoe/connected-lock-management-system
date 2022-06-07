@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 import store.controller.homeController as homeController
 
@@ -9,7 +8,8 @@ urlpatterns = [
 	path('', homeController.home),
 	path('dashboard/', homeController.dashboard, name="dashboard"),
 
-	# path('cart/', views.cart, name="cart"),
+	path('log', views.log, name="log"),
+	path('logout_lockify', views.logout_lockify, name="logout_lockify"),
 	# path('checkout/', views.checkout, name="checkout"),
 
 

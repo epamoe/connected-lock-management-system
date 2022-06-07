@@ -10,7 +10,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'view_room'  %}">users</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'view_user'  %}">users</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">add users</li>
                             </ol>
                         </nav>
@@ -54,6 +54,7 @@
                                             </div>
                                         </div>
                                         <input type="email" name="email" required class="form-control">
+                                        <input type="hidden" name="password" value = "userlockify2022" class="form-control pwstrength" data-indicator="pwindicator">
                                     </div>
                                 </div>
                                 <!-- <div class="form-group">
