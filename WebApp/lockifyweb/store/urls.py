@@ -7,6 +7,7 @@ urlpatterns = [
 	#Leave as empty string for base url
 	path('', homeController.home),
 	path('dashboard/', homeController.dashboard, name="dashboard"),
+	path('details/', homeController.details, name="details"),
 
 	path('log', views.log, name="log"),
 	path('logout_lockify', views.logout_lockify, name="logout_lockify"),
@@ -33,6 +34,7 @@ urlpatterns = [
 	path('deleteUser/<str:pk>', views.deleteUser, name="delete_user"),
 
 	path('lock/', views.viewLock, name="view_lock"),
+	path('lock_user/', homeController.viewLockUser, name="view_lockuser"),
 	path('create_lock/', views.createLock, name="create_lock"),
 	path('updateLock/<str:pk>', views.updateLock, name="update_lock"),
 	path('deleteLock/<str:pk>', views.deleteLock, name="delete_lock"),
@@ -48,16 +50,19 @@ urlpatterns = [
 	path('deletePassage_mode/<str:pk>', views.deletePassage_mode, name="delete_passage_mode"),
 
 	path('code/', views.viewCode, name="view_code"),
+	path('code_user/', homeController.viewCodeUser, name="view_codeuser"),
 	path('create_code/', views.createCode, name="create_code"),
 	path('updateCode/<str:pk>', views.updateCode, name="update_code"),
 	path('deleteCode/<str:pk>', views.deleteCode, name="delete_code"),
 
 	path('card/', views.viewCard, name="view_card"),
+	path('card_user/', homeController.viewCardUser, name="view_carduser"),
 	path('create_card/', views.createCard, name="create_card"),
 	path('updateCard/<str:pk>', views.updateCard, name="update_card"),
 	path('deleteCard/<str:pk>', views.deleteCard, name="delete_card"),
 
 	path('fingerPrint/', views.viewFingerPrint, name="view_fingerPrint"),
+	path('fingerPrint_user/', homeController.viewFingerPrintUser, name="view_fingerPrintuser"),
 	path('create_fingerPrint/', views.createFingerPrint, name="create_fingerPrint"),
 	path('updateFingerPrint/<str:pk>', views.updateFingerPrint, name="update_fingerPrint"),
 	path('deleteFingerPrint/<str:pk>', views.deleteFingerPrint, name="delete_fingerPrint"),

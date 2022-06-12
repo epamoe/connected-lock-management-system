@@ -84,6 +84,19 @@ WSGI_APPLICATION = 'lockifyweb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sql4498253',
+#         'USER': 'sql4498253',
+#         'PASSWORD': 'CHU89szmpF',
+#         'HOST': 'sql4.freesqldatabase.com',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#         }
+#     }
+# }
 
 DATABASES = {
     'default': {

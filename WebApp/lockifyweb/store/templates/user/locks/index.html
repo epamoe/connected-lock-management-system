@@ -9,7 +9,8 @@
                         <div class="card-body">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item active" aria-current="page">Bluetooth</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Serrures</li>
+                                    <h3></h3>
                                 </ol>
                             </nav>
                         </div>
@@ -19,44 +20,40 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="float-right">
-                                <a href="{% url 'create_bluetooth'  %}" class="btn btn-primary">Ajouter</a>
-                            </div>
-                        </div>
-                        {% include 'messages.html' %}
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped" id="table-2">
                                     <thead>
                                     <tr>
-                                        <th>Description</th>
-                                        <th>Date de debut</th>
-                                        <th>Date de fin</th>
-                                        <th>is set</th>
-                                        <th>Utilisateur</th>
-                                        <th>Serrures</th>
+                                        <th>Nom de la serrure</th>
+                                        <th>Adresse MAC</th>
+                                        <th>Auto lock time</th>
+                                        <th>Lock data</th>
+                                        <th>Status</th>
+                                        <th>Pourcentage des piles</th>
                                         <th>Action</th>
                                     </tr> 
                                     </thead>
                                     <tbody>
-                                    {% for store_bluetooth in bluetooths %}
+                                    {% for store_lock in locks %}
+                                        {% if store_lock.user.id == request.user.myuser.id %}
                                     <tr>
-                                        <td>{{store_bluetooth.description}}</td>
-                                        <td>{{store_bluetooth.start_date}}</td>
-                                        <td>{{store_bluetooth.end_date}}</td>
-                                        <td>{{store_bluetooth.is_set}}</td>
-                                        <td>{{store_bluetooth.user.user.username}}</td>
-                                        <td>{{store_bluetooth.lock.lock_name}}</td>
+                                        <td>{{store_lock.lock_name}}</td>
+                                        <td>{{store_lock.lock_mac}}</td>
+                                        <td>{{store_lock.auto_lock_time}}</td>
+                                        <td>{{store_lock.lock_data}}</td>
+                                        <td>{{store_lock.lock_status}}</td>
+                                        <td>{{store_lock.lock_percent}}</td>
                                         <td>
-                                            <a class="btn btn-outline-success" href="{% url 'update_bluetooth' store_bluetooth.id %}" title="edit">
+                                            <a class="btn btn-outline-success" href="{% url 'details'  %}" title="details">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-outline-danger" href="{% url 'delete_bluetooth' store_bluetooth.id %}" title="delete">
+                                            <a class="btn btn-outline-danger" href="#" title="delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
                                     </tr>
+                                    {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>

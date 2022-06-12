@@ -19,12 +19,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="float-right">
-                                <a href="{% url 'create_card'  %}" class="btn btn-primary">Ajouter</a>
-                            </div>
-                        </div>
-                        {% include 'messages.html' %}
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped" id="table-2">
@@ -35,30 +29,38 @@
                                         <th>Date de debut</th>
                                         <th>Date de fin</th>
                                         <th>is set</th>
-                                        <th>Utilisateur</th>
                                         <th>Serrures</th>
                                         <th>Action</th>
                                     </tr> 
                                     </thead>
                                     <tbody>
                                     {% for store_card in cards %}
-                                    <tr>
-                                        <td>{{store_card.card}}</td>
-                                        <td>{{store_card.description}}</td>
-                                        <td>{{store_card.start_date}}</td>
-                                        <td>{{store_card.end_date}}</td>
-                                        <td>{{store_card.is_set}}</td>
-                                        <td>{{store_card.user.user.username}}</td>
-                                        <td>{{store_card.lock.lock_name}}</td>
-                                        <td>
-                                            <a class="btn btn-outline-success" href="{% url 'update_card' store_card.id %}" title="edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a class="btn btn-outline-danger" href="{% url 'delete_card' store_card.id %}" title="delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    {% if store_card.user.id == request.user.myuser.id %}
+                                            <tr>
+                                                <td>{{store_card.card}}</td>
+                                                <td>{{store_card.description}}</td>
+                                                <td>{{store_card.start_date}}</td>
+                                                <td>{{store_card.end_date}}</td>
+                                                
+                                                <td>
+                                                    {% if store_card.is_set == 1 %}
+                                                        <div class="badge badge-success badge-shadow">Actif</div>
+                                                    {% else %}
+                                                        <div class="badge badge-danger badge-shadow">Inactif</div>
+                                                    {% endif %}
+                                                </td>
+                                                
+                                                <td>{{store_card.lock.lock_name}}</td>
+                                                <td>
+                                                    <a class="btn btn-outline-success" href="#" title="details">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a class="btn btn-outline-danger" href="#" title="delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>

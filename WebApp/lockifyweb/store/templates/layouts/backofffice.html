@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'home/assets/images/favicon.jpg' %}">
+
     <title> Dashboard|| Lockify </title>
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{% static 'backend/assets/css/app.min.css' %}">
@@ -165,9 +166,25 @@
                 {% else  %}
                 <ul class="sidebar-menu">
                   <li class="menu-header"></li>
-                  <li class="dropdown">
-                      <a href="#" class="nav-link"><i data-feather="users"></i><span>my lock</span></a>
-                  </li>
+                        <li class="dropdown">
+                            <a href="{% url 'dashboard'  %}" class="nav-link"><i data-feather="monitor"></i><span>dashboard</span></a>
+                        </li>
+                  <li class="dropdown ">
+                    <a href="{% url 'view_lockuser'  %}" class="nav-link">
+                        <i data-feather="lock"></i><span>My locks</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_codeuser'  %}" class="nav-link">
+                        <i data-feather="code"></i><span>Codes</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_carduser'  %}" class="nav-link">
+                        <i data-feather="credit-card"></i><span>Cards</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_fingerPrintuser'  %}" class="nav-link">
+                        <i data-feather="target"></i><span>Finger Print</span></a>
+                </li>
               </ul>
               {% endif  %}
 
