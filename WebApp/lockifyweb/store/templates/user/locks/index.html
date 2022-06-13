@@ -28,7 +28,7 @@
                                         <th>Nom de la serrure</th>
                                         <th>Adresse MAC</th>
                                         <th>Auto lock time</th>
-                                        <th>Lock data</th>
+                            
                                         <th>Status</th>
                                         <th>Pourcentage des piles</th>
                                         <th>Action</th>
@@ -41,15 +41,17 @@
                                         <td>{{store_lock.lock_name}}</td>
                                         <td>{{store_lock.lock_mac}}</td>
                                         <td>{{store_lock.auto_lock_time}}</td>
-                                        <td>{{store_lock.lock_data}}</td>
                                         <td>{{store_lock.lock_status}}</td>
-                                        <td>{{store_lock.lock_percent}}</td>
+                                        <td>{{store_lock.lock_percent}}%</td>
                                         <td>
                                             <a class="btn btn-outline-success" href="{% url 'details'  %}" title="details">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a class="btn btn-outline-danger" href="#" title="delete">
                                                 <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                            <a class="btn btn-outline-primary" href="#" title="delete">
+                                                View accesses
                                             </a>
                                         </td>
                                     </tr>
