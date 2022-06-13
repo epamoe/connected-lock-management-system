@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'lockifyweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'locki',
+        'NAME': 'lockify',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
