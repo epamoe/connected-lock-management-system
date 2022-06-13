@@ -232,7 +232,7 @@ def createLock(request):
 def updateLock(request, pk):
     myusers = MyUser.objects.all()
     locks = Lock.objects.get(id_lock = pk)
-    context={ 'myusers':myusers}
+    context={ 'myusers':myusers,'locks':locks}
     if request.method == 'POST':
         lock = Lock.objects.get(id_lock = pk)
         lock.lock_name= request.POST['lock_name']

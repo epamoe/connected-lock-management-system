@@ -86,7 +86,7 @@
                             class="logo-name">Lockify</span>
                     </a>
                 </div>
-                {%if user.is_superuser == 1 %}
+                {%if  request.user.myuser.role_id == 1 %}
                 <ul class="sidebar-menu">
                         <li class="menu-header"></li>
                         <li class="dropdown">
