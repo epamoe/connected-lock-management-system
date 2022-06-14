@@ -1,0 +1,75 @@
+{% extends 'layouts/backofffice.html' %}
+{% load static %}
+{% block content %}
+<section class="section">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'view_lock'  %}">Locks</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">add locks</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'messages.html' %}
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            <a href="{% url 'view_lock'  %}" class="btn btn-primary">back</a>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'create_lock' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                    <label>Nom de la serrure</label>
+                                    <input type="text" name="lock_name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Adresse Mac</label>
+                                    <input type="text" name="lock_mac" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Auto lock time</label>
+                                    <input type="text" name="auto_lock_time" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Lock data</label>
+                                    <input type="text" name="lock_data" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" name="lock_status" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Utilisateur</label>
+                                    <select class="form-control select2" name="user_id" required>
+                                        {% for store_myuser in myusers %}
+                                            <option value="{{store_myuser.id}}">{{store_myuser.user.username }}</option>
+                                        {% endfor %}
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Pourcentage des piles</label>
+                                    <input type="text" name="lock_percent" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-success">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

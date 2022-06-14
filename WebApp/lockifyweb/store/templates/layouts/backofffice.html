@@ -1,0 +1,454 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'home/assets/images/favicon.jpg' %}">
+
+    <title> Dashboard|| Lockify </title>
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{% static 'backend/assets/css/app.min.css' %}">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'backend/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/bootstrap-daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/datatables/datatables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/izitoast/css/iziToast.min.css')}}">
+    <!-- Custom style CSS -->
+    <link rel="stylesheet" href="{% static 'backend/assets/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/select2/dist/css/select2.min.css' %}">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/jquery.min.js">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/bootstrap.min.js">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/moment.min.js">
+    <link rel="stylesheet" href="{% static 'backend/assets/bundles/bootstrap-datetimepicker.min.js">
+
+    <link rel='shortcut icon' type='image/x-icon' href="{% static 'backend/assets/img/favicon.jpg'%}">
+    
+</head>
+
+<body>
+<div class="loader"></div>
+<div id="app">
+    <div class="main-wrapper main-wrapper-1">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar sticky">
+            <div class="form-inline mr-auto">
+              <ul class="navbar-nav mr-3">
+                <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
+                                        collapse-btn"> <i data-feather="align-justify"></i></a></li>
+                <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                    <i data-feather="maximize"></i>
+                  </a></li>
+              </ul>
+            </div>
+            <ul class="navbar-nav navbar-right">
+              <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                  class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
+                  <span class="badge headerBadge1">
+                    6 </span> </a>
+              </li>
+              <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                  class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
+                </a>
+              </li>
+              <li class="dropdown"><a href="#" data-toggle="dropdown"
+                  class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="{% static 'backend/assets/img/user.png' %}"
+                    class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+                <div class="dropdown-menu dropdown-menu-right pullDown">
+                  <div class="dropdown-title">
+                      {%if user.is_authenticated %} 
+                        <p>Bonjour, {{user.username}}</p>
+                      {% endif %}
+                  </div>
+                  <a href="#" class="dropdown-item has-icon"> <i class="far
+                                            fa-user"></i> Profile
+                  </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+                    Activities
+                  </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+                    Settings
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="{% url 'logout_lockify' %}" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        <div class="main-sidebar sidebar-style-2">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="/"> <img alt="image" src="{% static 'backend/assets/img/logo.png' %}" class="header-logo" /> <span
+                            class="logo-name">Lockify</span>
+                    </a>
+                </div>
+                {%if  request.user.myuser.role_id == 1 %}
+                <ul class="sidebar-menu">
+                        <li class="menu-header"></li>
+                        <li class="dropdown">
+                            <a href="{% url 'dashboard'  %}" class="nav-link"><i data-feather="monitor"></i><span>dashboard</span></a>
+                        </li>
+                    </ul>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header"></li>
+                        <li class="dropdown">
+                            <a href="{% url 'view_user'  %}" class="nav-link"><i data-feather="users"></i><span>Utilisateurs</span></a>
+                        </li>
+                    </ul>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">reglage</li>
+                        <li class="dropdown ">
+                            <a href="#" class="nav-link">
+                                <i data-feather="server"></i><span>Banniere</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="grid"></i><span>Gestion des serrures</span></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_lock'  %}" class="nav-link">
+                                        <i data-feather="lock"></i><span>Serrure</span></a>
+                                </li>
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_code'  %}" class="nav-link">
+                                        <i data-feather="code"></i><span>Code</span></a>
+                                </li>
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_card'  %}" class="nav-link">
+                                        <i data-feather="credit-card"></i><span>Carte</span></a>
+                                </li>
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_fingerPrint'  %}" class="nav-link">
+                                        <i data-feather="target"></i><span>Empreinte</span></a>
+                                </li>
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_bluetooth'  %}" class="nav-link">
+                                        <i data-feather="bluetooth"></i><span>Bluetooth</span></a>
+                                </li>   
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_action'  %}" class="nav-link">
+                                        <i data-feather="slack"></i><span>Action</span></a>
+                                </li>
+                                <li class="dropdown ">
+                                    <a href="{% url 'view_passage_mode'  %}" class="nav-link">
+                                        <i data-feather="trending-up"></i><span>Passage modes</span></a>
+                                </li>
+                            </ul>
+                          </li>
+                          <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="grid"></i><span>Gestion des Utilisateurs</span></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li class="dropdown">
+                                    <a href="{% url 'view_user'  %}" class="nav-link">
+                                        <i data-feather="users"></i><span>Users</span></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="{% url 'view_role'  %}" class="nav-link">
+                                        <i data-feather="user"></i><span>Roles</span></a>
+                                </li>
+                            </ul>
+                          </li>
+                        <li class="dropdown">
+                            <a href="{% url 'view_day'  %}" class="nav-link">
+                                <i data-feather="server"></i><span>Days</span></a>
+                        </li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="{% url 'view_history'  %}" class="nav-link">
+                                <i data-feather="sliders"></i><span>Historique</span></a>
+                        </li>
+                    </ul>
+                {% else  %}
+                <ul class="sidebar-menu">
+                  <li class="menu-header"></li>
+                        <li class="dropdown">
+                            <a href="{% url 'dashboard'  %}" class="nav-link"><i data-feather="monitor"></i><span>dashboard</span></a>
+                        </li>
+                  <li class="dropdown ">
+                    <a href="{% url 'view_lockuser'  %}" class="nav-link">
+                        <i data-feather="lock"></i><span>My locks</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_codeuser'  %}" class="nav-link">
+                        <i data-feather="code"></i><span>Codes</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_carduser'  %}" class="nav-link">
+                        <i data-feather="credit-card"></i><span>Cards</span></a>
+                </li>
+                <li class="dropdown ">
+                    <a href="{% url 'view_fingerPrintuser'  %}" class="nav-link">
+                        <i data-feather="target"></i><span>Finger Print</span></a>
+                </li>
+              </ul>
+              {% endif  %}
+
+                   
+            </aside>
+        </div>
+
+        <div class="settingSidebar">
+            <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
+            </a>
+            <div class="settingSidebar-body ps-container ps-theme-default">
+              <div class=" fade show active">
+                <div class="setting-panel-header">Setting Panel
+                </div>
+                <div class="p-15 border-bottom">
+                  <h6 class="font-medium m-b-10">Select Layout</h6>
+                  <div class="selectgroup layout-color w-50">
+                    <label class="selectgroup-item">
+                      <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
+                      <span class="selectgroup-button">Light</span>
+                    </label>
+                    <label class="selectgroup-item">
+                      <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
+                      <span class="selectgroup-button">Dark</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-15 border-bottom">
+                  <h6 class="font-medium m-b-10">Sidebar Color</h6>
+                  <div class="selectgroup selectgroup-pills sidebar-color">
+                    <label class="selectgroup-item">
+                      <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
+                      <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                        data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
+                    </label>
+                    <label class="selectgroup-item">
+                      <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
+                      <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                        data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-15 border-bottom">
+                  <h6 class="font-medium m-b-10">Color Theme</h6>
+                  <div class="theme-setting-options">
+                    <ul class="choose-theme list-unstyled mb-0">
+                      <li title="white" class="active">
+                        <div class="white"></div>
+                      </li>
+                      <li title="cyan">
+                        <div class="cyan"></div>
+                      </li>
+                      <li title="black">
+                        <div class="black"></div>
+                      </li>
+                      <li title="purple">
+                        <div class="purple"></div>
+                      </li>
+                      <li title="orange">
+                        <div class="orange"></div>
+                      </li>
+                      <li title="green">
+                        <div class="green"></div>
+                      </li>
+                      <li title="red">
+                        <div class="red"></div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="p-15 border-bottom">
+                  <div class="theme-setting-options">
+                    <label class="m-b-0">
+                      <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                        id="mini_sidebar_setting">
+                      <span class="custom-switch-indicator"></span>
+                      <span class="control-label p-l-10">Mini Sidebar</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-15 border-bottom">
+                  <div class="theme-setting-options">
+                    <label class="m-b-0">
+                      <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                        id="sticky_header_setting">
+                      <span class="custom-switch-indicator"></span>
+                      <span class="control-label p-l-10">Sticky Header</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
+                  <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
+                    <i class="fas fa-undo"></i> Restore Default
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div><div class="settingSidebar">
+      <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
+      </a>
+      <div class="settingSidebar-body ps-container ps-theme-default">
+        <div class=" fade show active">
+          <div class="setting-panel-header">Setting Panel
+          </div>
+          <div class="p-15 border-bottom">
+            <h6 class="font-medium m-b-10">Select Layout</h6>
+            <div class="selectgroup layout-color w-50">
+              <label class="selectgroup-item">
+                <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
+                <span class="selectgroup-button">Light</span>
+              </label>
+              <label class="selectgroup-item">
+                <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
+                <span class="selectgroup-button">Dark</span>
+              </label>
+            </div>
+          </div>
+          <div class="p-15 border-bottom">
+            <h6 class="font-medium m-b-10">Sidebar Color</h6>
+            <div class="selectgroup selectgroup-pills sidebar-color">
+              <label class="selectgroup-item">
+                <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
+                <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                  data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
+              </label>
+              <label class="selectgroup-item">
+                <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
+                <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
+                  data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="p-15 border-bottom">
+            <h6 class="font-medium m-b-10">Color Theme</h6>
+            <div class="theme-setting-options">
+              <ul class="choose-theme list-unstyled mb-0">
+                <li title="white" class="active">
+                  <div class="white"></div>
+                </li>
+                <li title="cyan">
+                  <div class="cyan"></div>
+                </li>
+                <li title="black">
+                  <div class="black"></div>
+                </li>
+                <li title="purple">
+                  <div class="purple"></div>
+                </li>
+                <li title="orange">
+                  <div class="orange"></div>
+                </li>
+                <li title="green">
+                  <div class="green"></div>
+                </li>
+                <li title="red">
+                  <div class="red"></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="p-15 border-bottom">
+            <div class="theme-setting-options">
+              <label class="m-b-0">
+                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                  id="mini_sidebar_setting">
+                <span class="custom-switch-indicator"></span>
+                <span class="control-label p-l-10">Mini Sidebar</span>
+              </label>
+            </div>
+          </div>
+          <div class="p-15 border-bottom">
+            <div class="theme-setting-options">
+              <label class="m-b-0">
+                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+                  id="sticky_header_setting">
+                <span class="custom-switch-indicator"></span>
+                <span class="control-label p-l-10">Sticky Header</span>
+              </label>
+            </div>
+          </div>
+          <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
+            <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
+              <i class="fas fa-undo"></i> Restore Default
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+        <!-- Main Content -->
+        <div class="main-content">
+            {% block content %} {% endblock content %}
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-left">
+                <a href="/">Lockify</a></a>
+            </div>
+            <div class="footer-right">
+                App for Lock
+            </div>
+        </footer>
+    </div>
+</div>
+<!-- General JS Scripts -->
+<script src="{% static 'backend/assets/js/app.min.js' %}"></script>
+<!-- JS Libraies -->
+<script src="{% static 'backend/assets/bundles/apexcharts/apexcharts.min.js' %}"></script>
+<!-- Page Specific JS File -->
+<script src="{% static 'backend/assets/js/page/index.js' %}"></script>
+<!-- Template JS File -->
+<script src="{% static 'backend/assets/js/scripts.js' %}"></script>
+<!-- Custom JS File -->
+<script src="{% static 'backend/assets/js/custom.js' %}"></script>
+<script src="{% static 'backend/assets/js/page/toastr.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/izitoast/js/iziToast.min.js' %}"></script>
+<!-- datatable-->
+<script src="{% static 'backend/assets/bundles/datatables/datatables.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/buttons.flash.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/jszip.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/pdfmake.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/vfs_fonts.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/datatables/export-tables/buttons.print.min.js' %}"></script>
+<script src="{% static 'toastr.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/jquery-pwstrength/jquery.pwstrength.min.js' %}"></script>
+<script src="{% static 'backend/assets/bundles/select2/dist/js/select2.full.min.js' %}"></script>
+
+<!-- Template JS File -->
+
+<script type="text/javascript">
+    $(function() {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+
+
+<script>
+    $('table').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+   
+
+</script>
+
+<script>
+    setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+    }, 2000)
+  </script>
+
+<script type="text/javascript">
+    $(function() {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+
+</body>
+</html>

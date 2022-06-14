@@ -22,6 +22,9 @@ class Urls {
   static const String userURL = baseURL + '/user';
   static const String postsURL = baseURL + '/posts';
   static const String commentsURL = baseURL + '/comments';
+  static const String url_save_lock = baseURL + '/add_lock';
+  static const String url_rename_lock = baseURL + '/rename_lock';
+  static const String url_get_all_lock = baseURL + '/lock';
 
 // ----- Errors -----
   static const String serverError = 'Server error';
