@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
@@ -16,6 +17,8 @@ class MyUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE, related_name= 'myuser')
     phone_number = models.IntegerField(null=False)
     role = models.ForeignKey(Role, on_delete= models.CASCADE)
+    image = models.ImageField ( default = 'default.png', upload_to ='profile_images', null=False)
+
 
 
 class Day(models.Model):
@@ -38,7 +41,7 @@ class FingerPrint(models.Model):
     description= models.CharField(max_length=100, null=False)
     start_date = models.DateTimeField(max_length=30, null=False)
     end_date= models.DateTimeField(max_length=30, null=False)
-    is_set = models.IntegerField(null=False, default="0")
+    is_set = models.IntegerField(null=False, default='0')
     user = models.ForeignKey(MyUser, on_delete= models.CASCADE, null=False )
     lock = models.ForeignKey(Lock, on_delete= models.CASCADE, null=False )
 

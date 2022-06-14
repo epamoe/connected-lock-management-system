@@ -12,6 +12,8 @@ urlpatterns = [
 	path('log', views.log, name="log"),
 	path('logout_lockify', views.logout_lockify, name="logout_lockify"),
 	# path('checkout/', views.checkout, name="checkout"),
+	path('profile', views.profile, name="profile"),
+	path('Updateprofile/<str:pk>', views.updateProfile, name="update_profile"),
 
 
 

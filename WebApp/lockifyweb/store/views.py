@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from  .models import*
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+import bcrypt
 
 def log(request):
     if request.method == 'POST':
@@ -20,6 +21,7 @@ def log(request):
         if not user_obj.is_active:
             messages.error(request, 'Profile is not verified check your mail.')
             return redirect('log')
+        
 
         user = authenticate(username = user_obj.username , password = password)
         if user is None:
@@ -31,13 +33,68 @@ def log(request):
 
     return render(request , 'registration/login.html')
 
+# def log(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         password = request.POST.get('password').encode('utf-8')
+#         print(email, password)
+#         user_obj = User.objects.filter(email = email).first()
+#         if user_obj is None:
+#             messages.error(request, 'User not found.')
+#             return redirect('log')
+#         if not user_obj.is_active:
+#             messages.error(request, 'Profile is not verified check your mail.')
+#             return redirect('log')
+#         hash = bcrypt.hashpw(password, bcrypt.gensalt())
+
+#         print(user_obj.password)
+#         print(hash)
+#         passwo = hash.encode('utf-8')
+#         user = bcrypt.checkpw(hash,passwo)
+#         #user = authenticate(username = user_obj.username , password = password)
+#         if not user:
+#         #if not user :
+#             messages.error(request, 'Wrong password.')
+#             return redirect('log')
+        
+#         login(request , user)
+#         return redirect('dashboard')
+
+#     return render(request , 'registration/login.html')
+
 
 def logout_lockify(request):
     logout(request)
     return redirect('/')
 
+def profile(request):
+    users = MyUser.objects.all()
+    context={'users':users}
+    return render(request,'user/profile.html',context)
 
+def updateProfile(request, pk):
+    myuser = MyUser.objects.get(id=pk)
+    myusers = MyUser.objects.all()
+    context = {'myuser':myuser,'myusers':myusers}
+    if request.method == 'POST':
+        user = User.objects.get(id=myuser.user.id)
+        user.email = request.POST['email']
+        user.username = request.POST['username']
+        myuser.phone_number = request.POST['phone_number'] 
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        if password == password2:
+            user.set_password(password)
+            myuser.user = user
+            user.save()
+            myuser.save()
+            messages.success(request, 'Modifications succes!')
+            return redirect('profile')
+        messages.error(request, 'Entrez un bon mot de passe dans les deux champs!')
+       
     
+    return render(request , 'user/profile.html', context)
+
 def viewDay(request):
     days = Day.objects.all()
     context={'days':days}
@@ -142,8 +199,10 @@ def createUser(request):
         role_id = request.POST.get('role_id')
         #password= 'userlockify2022'
         password = request.POST.get('password')
+        passwordbyte = password.encode('utf-8')
+        hashed = bcrypt.hashpw(passwordbyte, bcrypt.gensalt())
         print("*******************************************")
-        print( role_id, password)
+        print( role_id, hashed)
         try:
             if User.objects.filter(username = username).first():
                 messages.warning(request, 'Username is taken.')
@@ -161,6 +220,36 @@ def createUser(request):
         except Exception as e:
             print(e)
     return render(request , 'admin/users/create.html', context) 
+
+# def createUser(request):
+#     roles = Role.objects.all()
+#     context={'roles':roles}
+#     if request.method == 'POST':
+#         username = request.POST.get('name')
+#         email = request.POST.get('email')
+#         phone_number = request.POST.get('phone_number')
+#         role_id = request.POST.get('role_id')
+#         pwd = request.POST.get('password')
+        
+#         password = bcrypt.hashpw(pwd, bcrypt.gensalt())
+#         print("*******************************************")
+#         print( role_id, password)
+#         try:
+#             if User.objects.filter(username = username).first():
+#                 messages.warning(request, 'Username is taken.')
+#                 return redirect('create_user')
+#             if User.objects.filter(email = email).first():
+#                 messages.warning(request, 'Email is taken.')
+#                 return redirect('create_user')
+#             user_obj = User(username = username, email = email, password = password)
+#             user_obj.save()
+#             promotor_obj = MyUser.objects.create(user = user_obj, phone_number = phone_number, role_id = role_id )
+#             promotor_obj.save()
+#             messages.success(request, 'succes!')
+#             return redirect('view_user')
+#         except Exception as e:
+#             print(e)
+#     return render(request , 'admin/users/create.html', context)
 
 
 def updateUser(request, pk):
