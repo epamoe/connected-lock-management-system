@@ -16,7 +16,6 @@ urlpatterns = [
 	path('Updateprofile/<str:pk>', views.updateProfile, name="update_profile"),
 
 
-
 	path('day/', views.viewDay, name="view_day"),
 	path('create_day/', views.createDay, name="create_day"),
 	path('updateDay/<str:pk>', views.updateDay, name="update_day"),
@@ -71,9 +70,15 @@ urlpatterns = [
 
 	path('bluetooth/', views.viewBluetooth, name="view_bluetooth"),
 	path('create_bluetooth/', views.createBluetooth, name="create_bluetooth"),
+	
 	path('updateBluetooth/<str:pk>', views.updateBluetooth, name="update_bluetooth"),
 	path('deleteBluetooth/<str:pk>', views.deleteBluetooth, name="delete_bluetooth"),
 
 	path('history/', views.viewHistory, name="view_history"),
 	# path('deleteHistory/<str:pk>', views.deleteHistory, name="delete_history"),
+
+
+	#accesses
+	path('view_all_accesses/<str:pk>', views.view_all_accesses, name="view_all_accesses"),
 ]
+

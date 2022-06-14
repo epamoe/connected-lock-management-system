@@ -29,7 +29,7 @@ def viewCardUser(request):
 
 
 def viewLockUser(request):
-    locks = Lock.objects.all()
+    locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
     print(locks)
     context={'locks':locks}
     return render(request, 'user/locks/index.html',context)

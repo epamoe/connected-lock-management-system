@@ -54,15 +54,24 @@
                                 <label>Utilisateur</label>
                                 <select class="form-control select2" value = "{{cards.user.user_id}}" name="user_id" required>
                                     {% for store_myuser in myusers %}
-                                        <option value="{{cards.user.id}}">{{store_myuser.user.username }}</option>
-                                    {% endfor %}
+                                    {% if store_myuser.id ==  cards.user.id %}
+                                        <option selected value="{{store_myuser.user.id}}">{{store_myuser.user.username }}</option>
+                                        {% else %}
+                                        <option  value="{{store_myuser.user.id}}">{{store_myuser.user.username }}</option>
+                                        {% endif %}
+                                        {% endfor %}
                                 </select> 
                             </div>
                             <div class="form-group">
                                 <label>Serrure</label>
                                 <select class="form-control select2" name="lock_id" value = "{{cards.lock.locks_id}}" required>
                                     {% for store_lock in locks %}
-                                        <option value="{{cards.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% if store_lock.id ==  cards.locks_id %}
+                                    <option selected value="{{cards.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% else %}
+                                    <option value="{{cards.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% endif %}
+                                        
                                     {% endfor %}
                                 </select> 
                             </div>

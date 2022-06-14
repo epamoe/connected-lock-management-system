@@ -36,26 +36,23 @@
                                     </thead>
                                     <tbody>
                                     {% for store_lock in locks %}
-                                        {% if store_lock.user.id == request.user.myuser.id %}
-                                    <tr>
+                                        <tr>
                                         <td>{{store_lock.lock_name}}</td>
                                         <td>{{store_lock.lock_mac}}</td>
                                         <td>{{store_lock.auto_lock_time}}</td>
                                         <td>{{store_lock.lock_status}}</td>
                                         <td>{{store_lock.lock_percent}}%</td>
                                         <td>
-                                            <a class="btn btn-outline-success" href="{% url 'details'  %}" title="details">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                           
                                             <a class="btn btn-outline-danger" href="#" title="delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
-                                            <a class="btn btn-outline-primary" href="#" title="delete">
+                                            <a class="btn btn-outline-primary" href="{% url 'view_all_accesses' store_lock.id_lock %}" title="delete">
                                                 View accesses
                                             </a>
                                         </td>
                                     </tr>
-                                    {% endif %}
+                                 
                                     {% endfor %}
                                     </tbody>
                                 </table>

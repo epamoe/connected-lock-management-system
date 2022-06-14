@@ -62,7 +62,7 @@ class Bluetooth(models.Model):
     end_date= models.DateTimeField(max_length=30, null=False)
     is_set = models.IntegerField(null=False, default="0")
     user = models.ForeignKey(MyUser, on_delete= models.CASCADE, null=False )
-    lock = models.ForeignKey(Lock, on_delete= models.CASCADE, null=False )
+    lock = models.ForeignKey(Lock, on_delete= models.CASCADE, null=False)
 
 class Code(models.Model):
     code = models.CharField(null=True, max_length=30)

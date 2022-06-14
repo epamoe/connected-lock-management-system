@@ -460,7 +460,12 @@ def viewCode(request):
 
 
 def createCode(request):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
+    
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -475,14 +480,18 @@ def createCode(request):
             code = Code.objects.create(code = code, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
             code.save()
             messages.success(request, 'succes!')
-            return redirect('view_code')
+            return redirect(request.META.get('HTTP_REFERER'))
         except Exception as e:
             print(e)
     return render(request , 'admin/codes/create.html', context) 
 
 
 def updateCode(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     codes = Code.objects.get(id = pk)
     context={'codes':codes,'locks':locks, 'myusers':myusers}
@@ -500,7 +509,7 @@ def updateCode(request, pk):
         code.user = MyUser.objects.get(id=myuser)
         code.save()
         messages.success(request, 'Modifications succes!')
-        return redirect('view_code')
+        return redirect(request.META.get('HTTP_REFERER'))
        
     
     return render(request , 'admin/codes/edit.html', context)
@@ -510,7 +519,7 @@ def deleteCode(request, pk):
     code = Code.objects.get(id=pk)
     code.delete()
     messages.success(request, 'Delete succes!')
-    return redirect('view_code')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 
@@ -521,7 +530,11 @@ def viewCard(request):
 
 
 def createCard(request):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -536,14 +549,18 @@ def createCard(request):
             card = Card.objects.create(card = card, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
             card.save()
             messages.success(request, 'succes!')
-            return redirect('view_card')
+            return redirect(request.META.get('HTTP_REFERER'))
         except Exception as e:
             print(e)
     return render(request , 'admin/cards/create.html', context) 
 
 
 def updateCard(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     cards = Card.objects.get(id = pk)
     context={'cards':cards,'locks':locks, 'myusers':myusers}
@@ -561,7 +578,7 @@ def updateCard(request, pk):
         card.user = MyUser.objects.get(id=myuser)
         card.save()
         messages.success(request, 'Modifications succes!')
-        return redirect('view_card')
+        return redirect(request.META.get('HTTP_REFERER'))
        
     
     return render(request , 'admin/cards/edit.html', context)
@@ -571,8 +588,7 @@ def deleteCard(request, pk):
     card = Card.objects.get(id=pk)
     card.delete()
     messages.success(request, 'Delete succes!')
-    return redirect('view_card')
-
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def viewFingerPrint(request):
@@ -597,7 +613,7 @@ def createFingerPrint(request):
             fingerPrint = FingerPrint.objects.create(fingerPrint = fingerPrint, description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
             fingerPrint.save()
             messages.success(request, 'succes!')
-            return redirect('view_fingerPrint')
+            return redirect(request.META.get('HTTP_REFERER'))
         except Exception as e:
             print(e)
     return render(request , 'admin/fingerPrints/create.html', context) 
@@ -622,7 +638,7 @@ def updateFingerPrint(request, pk):
         fingerPrint.user = MyUser.objects.get(id=myuser)
         fingerPrint.save()
         messages.success(request, 'Modifications succes!')
-        return redirect('view_fingerPrint')
+        return redirect(request.META.get('HTTP_REFERER'))
        
     
     return render(request , 'admin/fingerPrints/edit.html', context)
@@ -632,7 +648,7 @@ def deleteFingerPrint(request, pk):
     fingerPrint = FingerPrint.objects.get(id=pk)
     fingerPrint.delete()
     messages.success(request, 'Delete succes!')
-    return redirect('view_fingerPrint')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 
@@ -643,7 +659,10 @@ def viewBluetooth(request):
 
 
 def createBluetooth(request):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -657,14 +676,17 @@ def createBluetooth(request):
             bluetooth = Bluetooth.objects.create( description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
             bluetooth.save()
             messages.success(request, 'succes!')
-            return redirect('view_bluetooth')
+            return redirect(request.META.get('HTTP_REFERER'))
         except Exception as e:
             print(e)
     return render(request , 'admin/bluetooth/create.html', context) 
 
 
 def updateBluetooth(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
     myusers = MyUser.objects.all()
     bluetooths = Bluetooth.objects.get(id = pk)
     context={'bluetooths':bluetooths,'locks':locks, 'myusers':myusers}
@@ -681,7 +703,7 @@ def updateBluetooth(request, pk):
         bluetooth.user = MyUser.objects.get(id=myuser)
         bluetooth.save()
         messages.success(request, 'Modifications succes!')
-        return redirect('view_bluetooth')
+        return redirect(request.META.get('HTTP_REFERER'))
        
     
     return render(request , 'admin/bluetooth/edit.html', context)
@@ -691,7 +713,7 @@ def deleteBluetooth(request, pk):
     bluetooth = Bluetooth.objects.get(id=pk)
     bluetooth.delete()
     messages.success(request, 'Delete succes!')
-    return redirect('view_bluetooth')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def viewHistory(request):
@@ -700,3 +722,10 @@ def viewHistory(request):
     return render(request, 'admin/histories/index.html',context)
 
 
+def view_all_accesses(request,pk):
+    
+    bluetooth= Bluetooth.objects.select_related().filter(lock_id=pk)
+    code= Code.objects.select_related().filter(lock_id=pk)
+    card= Card.objects.select_related().filter(lock_id=pk)
+    context={'bluetooth':bluetooth, 'code':code, 'card':card}
+    return render(request, 'user/locks/view_all_accesses.html',context)
