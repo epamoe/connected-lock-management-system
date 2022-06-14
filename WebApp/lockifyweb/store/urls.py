@@ -14,7 +14,6 @@ urlpatterns = [
 	# path('checkout/', views.checkout, name="checkout"),
 
 
-
 	path('day/', views.viewDay, name="view_day"),
 	path('create_day/', views.createDay, name="create_day"),
 	path('updateDay/<str:pk>', views.updateDay, name="update_day"),
@@ -74,4 +73,9 @@ urlpatterns = [
 
 	path('history/', views.viewHistory, name="view_history"),
 	# path('deleteHistory/<str:pk>', views.deleteHistory, name="delete_history"),
+
+
+	#accesses
+	path('view_all_accesses/<str:pk>', views.view_all_accesses, name="view_all_accesses"),
 ]
+

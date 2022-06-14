@@ -98,19 +98,34 @@ WSGI_APPLICATION = 'lockifyweb.wsgi.application'
 #     }
 # }
 
+#DATABASES = {
+    #'default': {
+      #  'ENGINE': 'django.db.backends.mysql',
+       # 'NAME': 'lockify',
+        #'USER': 'admin',
+       # 'PASSWORD': 'lockify237',
+       # 'HOST': 'database-1.clb5mrb89pnl.us-east-1.rds.amazonaws.com',
+        #'PORT': '3306',
+       # 'OPTIONS': {
+        #    'sql_mode': 'traditional',
+      #  }
+    #}
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lockify',
-        'USER': 'admin',
-        'PASSWORD': 'lockify237',
-        'HOST': 'database-1.clb5mrb89pnl.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        }
-    }
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'lockify_bd',
+    'USER': 'root',
+       'PASSWORD': '',
+       'HOST': '127.0.0.1',
+    'PORT': '3306',
+       'OPTIONS': {
+        'sql_mode': 'traditional',
+       }
 }
+}
+
 
 
 # Password validation

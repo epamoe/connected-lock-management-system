@@ -611,3 +611,10 @@ def viewHistory(request):
     return render(request, 'admin/histories/index.html',context)
 
 
+def view_all_accesses(request,pk):
+    
+    bluetooth= Bluetooth.objects.select_related().filter(lock_id=pk)
+    code= Code.objects.select_related().filter(lock_id=pk)
+    card= Card.objects.select_related().filter(lock_id=pk)
+    context={'bluetooth':bluetooth, 'code':code, 'card':card}
+    return render(request, 'user/locks/view_all_accesses.html',context)
