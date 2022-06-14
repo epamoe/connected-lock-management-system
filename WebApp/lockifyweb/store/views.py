@@ -441,7 +441,11 @@ def viewCard(request):
 
 
 def createCard(request):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -463,7 +467,11 @@ def createCard(request):
 
 
 def updateCard(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     cards = Card.objects.get(id = pk)
     context={'cards':cards,'locks':locks, 'myusers':myusers}
@@ -562,8 +570,11 @@ def viewBluetooth(request):
     return render(request, 'admin/bluetooth/index.html',context)
 
 
-def createBluetooth(request):
-    locks = Lock.objects.all()
+def createBluetooth(request,pk=None):
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -577,14 +588,17 @@ def createBluetooth(request):
             bluetooth = Bluetooth.objects.create( description = description, start_date = start_date, end_date = end_date, is_set = is_set, user_id = user_id, lock_id = lock_id )
             bluetooth.save()
             messages.success(request, 'succes!')
-            return redirect('view_bluetooth')
+            return redirect(pk)
         except Exception as e:
             print(e)
     return render(request , 'admin/bluetooth/create.html', context) 
 
 
 def updateBluetooth(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
     myusers = MyUser.objects.all()
     bluetooths = Bluetooth.objects.get(id = pk)
     context={'bluetooths':bluetooths,'locks':locks, 'myusers':myusers}

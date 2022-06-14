@@ -52,17 +52,26 @@
                             </div>
                             <div class="form-group">
                                 <label>Utilisateur</label>
-                                <select class="form-control select2" value = "{{codes.user.user_id}}" name="user_id" required>
+                                <select class="form-control select2"  name="user_id" required>
                                     {% for store_myuser in myusers %}
-                                        <option value="{{codes.user.id}}">{{store_myuser.user.username }}</option>
-                                    {% endfor %}
+                                    {% if store_myuser.id ==  codes.user.id %}
+                                        <option selected value="{{store_myuser.user.id}}">{{store_myuser.user.username }}</option>
+                                        {% else %}
+                                        <option  value="{{store_myuser.user.id}}">{{store_myuser.user.username }}</option>
+                                        {% endif %}
+                                        {% endfor %}
                                 </select> 
                             </div>
                             <div class="form-group">
                                 <label>Serrure</label>
                                 <select class="form-control select2" name="lock_id" value = "{{codes.lock.locks_id}}" required>
                                     {% for store_lock in locks %}
-                                        <option value="{{codes.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% if store_lock.id ==  codes.locks_id %}
+                                    <option selected value="{{codes.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% else %}
+                                    <option value="{{codes.lock.id_lock}}">{{store_lock.lock_name }}</option>
+                                    {% endif %}
+                                        
                                     {% endfor %}
                                 </select> 
                             </div>

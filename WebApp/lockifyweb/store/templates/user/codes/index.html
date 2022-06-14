@@ -34,7 +34,7 @@
                                         <th>Date de debut</th>
                                         <th>Date de fin</th>
                                         <th>is set</th>
-                                        <th>Utilisateur</th>
+                                       
                                         <th>Serrures</th>
                                         <th>Action</th>
                                     </tr> 
@@ -55,7 +55,7 @@
                                                 <div class="badge badge-danger badge-shadow">Inactif</div>
                                             {% endif %}
                                         </td>
-                                        <td>{{store_code.user.user.username}}</td>
+                                      
                                         <td>{{store_code.lock.lock_name}}</td>
                                         <td>
                                             <a class="btn btn-outline-success" href="{% url 'update_code' store_code.id %}" title="edit">
