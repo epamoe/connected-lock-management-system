@@ -10,7 +10,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'view_code'  %}">Codes</a></li>
+                                <li class="breadcrumb-item"><a href="{{request.META.HTTP_REFERER}}">Codes</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">add codes</li>
                             </ol>
                         </nav>
@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            <a href="{% url 'view_code'  %}" class="btn btn-primary">back</a>
+                            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-primary">back</a>
                         </h4>
                     </div>
                     <div class="card-body">

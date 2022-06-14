@@ -68,7 +68,7 @@ urlpatterns = [
 
 	path('bluetooth/', views.viewBluetooth, name="view_bluetooth"),
 	path('create_bluetooth/', views.createBluetooth, name="create_bluetooth"),
-	path('create_bluetooth/<str:pk>', views.createBluetooth, name="create_bluetooth"),
+	
 	path('updateBluetooth/<str:pk>', views.updateBluetooth, name="update_bluetooth"),
 	path('deleteBluetooth/<str:pk>', views.deleteBluetooth, name="delete_bluetooth"),
 
