@@ -57,10 +57,10 @@
                                                 
                                                 <td>{{store_card.lock.lock_name}}</td>
                                                 <td>
-                                                    <a class="btn btn-outline-success" href="#" title="details">
+                                                    <a class="btn btn-outline-success" href="{% url 'update_card' store_card.id %}" title="edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <a class="btn btn-outline-danger" href="#" title="delete">
+                                                    <a class="btn btn-outline-danger" href="{% url 'delete_card' store_card.id %}" title="delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>

@@ -371,7 +371,12 @@ def viewCode(request):
 
 
 def createCode(request):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
+    
     myusers = MyUser.objects.all()
     context={'locks':locks, 'myusers':myusers}
     if request.method == 'POST':
@@ -393,7 +398,11 @@ def createCode(request):
 
 
 def updateCode(request, pk):
-    locks = Lock.objects.all()
+    if request.user.myuser.role_id == 1: 
+                locks = Lock.objects.all()
+    else:
+        locks= Lock.objects.select_related().filter(user=request.user.myuser.user_id)
+
     myusers = MyUser.objects.all()
     codes = Code.objects.get(id = pk)
     context={'codes':codes,'locks':locks, 'myusers':myusers}

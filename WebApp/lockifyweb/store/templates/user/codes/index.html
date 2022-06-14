@@ -58,10 +58,10 @@
                                         <td>{{store_code.user.user.username}}</td>
                                         <td>{{store_code.lock.lock_name}}</td>
                                         <td>
-                                            <a class="btn btn-outline-success" href="#" title="details">
+                                            <a class="btn btn-outline-success" href="{% url 'update_code' store_code.id %}" title="edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-outline-danger" href="#" title="delete">
+                                            <a class="btn btn-outline-danger" href="{% url 'delete_code' store_code.id %}" title="delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
