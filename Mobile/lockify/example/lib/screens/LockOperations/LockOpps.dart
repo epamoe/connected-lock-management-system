@@ -8,6 +8,11 @@ import 'package:ttlock_flutter_example/services/user_service.dart';
 import 'package:ttlock_flutter_example/urls/urls.dart';
 import 'package:ttlock_flutter_example/widgets/circle_card_widget.dart';
 
+import 'Cards/IndexCards.dart';
+import 'Codes/IndexCodes.dart';
+import 'Lock/IndexLock.dart';
+import 'Lock.dart';
+
 class LockOpp extends StatefulWidget {
   LockOpp(
       {required this.lockName,
@@ -22,7 +27,7 @@ class LockOpp extends StatefulWidget {
   final String lockMac;
   final String idAdmin;
   final int idSerrure;
-  final String percent;
+  final int percent;
 
   @override
   _LockOppState createState() =>
@@ -35,9 +40,9 @@ class _LockOppState extends State<LockOpp> {
   String lockMac = '';
   String idAdmin = '';
   int? idSerrure;
-  String percent = '';
+  int? percent;
   _LockOppState(String lockName, String lockData, String lockMac,
-      String idAdmin, int idSerrure, String percent) {
+      String idAdmin, int idSerrure, int percent) {
     super.initState();
     this.lockName = lockName;
     this.lockData = lockData;
@@ -93,6 +98,22 @@ class _LockOppState extends State<LockOpp> {
   }
 
   void dounlock() {
+    TTLock.controlLock(lockData, TTControlAction.unlock,
+        (lockTime, electricQuantity, uniqueId) {
+      EasyLoading.showSuccess("success");
+
+      int timestamp = DateTime.now().millisecondsSinceEpoch;
+      TTLock.setLockTime(timestamp, lockData, () {
+        print('$timestamp');
+      }, (errorCode, errorMsg) {
+        print('setLockTime not possible');
+      });
+      // _showSuccessAndDismiss(
+      //     "Unlock Success lockTime:$lockTime electricQuantity:$electricQuantity uniqueId:$uniqueId");
+    }, (errorCode, errorMsg) {
+      EasyLoading.showError(errorMsg);
+      // _showErrorAndDismiss(errorCode, errorMsg);
+    });
     // OtherServices.unlock(lockData, lockMac, idAdmin, context);
   }
 
@@ -218,7 +239,7 @@ class _LockOppState extends State<LockOpp> {
                       context,
                     );
                     EasyLoading.show(status: "loading");
-                    // setAdminCode(name, idEntreprise, idSerrure);
+                    // setAdminCode(name, idSerrure);
                   }
                 },
                 child: Text("ok"),
@@ -358,24 +379,49 @@ class _LockOppState extends State<LockOpp> {
                             iconImg: "assets/setting.png",
                             nameTxt: "setting",
                             delayStart: Duration(milliseconds: 250),
-                            newPage: LoginPage()),
+                            newPage: Lock(
+                              lockName: lockName,
+                              lockData: lockData,
+                              lockMac: lockMac,
+                              idAdmin: idAdmin,
+                              idSerrure: idSerrure!,
+                              percent: percent!,
+                            )),
                         CircleCardWidget(
                           iconImg: "assets/Initlock.png",
                           nameTxt: "access",
                           delayStart: Duration(milliseconds: 250),
-                          newPage: LoginPage(),
+                          newPage: IndexLock(
+                              lockName: lockName,
+                              lockData: lockData,
+                              lockMac: lockMac,
+                              idAdmin: idAdmin,
+                              idSerrure: idSerrure!,
+                              percent: percent!),
                         ),
                         CircleCardWidget(
                           iconImg: "assets/register.png",
                           nameTxt: "access code",
                           delayStart: Duration(milliseconds: 250),
-                          newPage: LoginPage(),
+                          newPage: IndexCode(
+                              lockName: lockName,
+                              lockData: lockData,
+                              lockMac: lockMac,
+                              idAdmin: idAdmin,
+                              idSerrure: idSerrure!,
+                              percent: percent!),
                         ),
                         CircleCardWidget(
                           iconImg: "assets/Finance.png",
                           nameTxt: "smart Card",
                           delayStart: Duration(milliseconds: 250),
-                          newPage: LoginPage(),
+                          newPage: IndexCards(
+                              lockName: lockName,
+                              lockData: lockData,
+                              lockMac: lockMac,
+                              idAdmin: idAdmin,
+                              idSerrure: idSerrure!,
+                              percent: percent!),
                         ),
                         CircleCardWidget(
                           iconImg: "assets/Fingerprint.png",

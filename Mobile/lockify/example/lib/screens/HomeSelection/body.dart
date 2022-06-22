@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ttlock_flutter_example/screens/LockOperations/Access/ListAccess.dart';
+import 'package:ttlock_flutter_example/services/user_service.dart';
 
 import 'const.dart';
+import 'lock_list.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -9,6 +12,39 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int? selectindex;
+
+  String idadmin1 = '';
+  String idadmin2 = '';
+  String email1 = '';
+  String email2 = '';
+  String userName1 = '';
+  String userName2 = '';
+  String idEntreprise1 = '';
+  String idEntreprise2 = '';
+
+  Future<void> gett() async {
+    idadmin2 = await getUserId();
+    email2 = await getEmail();
+    userName2 = await getUserName();
+    idEntreprise2 = await getEnterprise();
+    setState(() {
+      idadmin1 = idadmin2;
+      email1 = email2;
+      userName1 = userName2;
+      idEntreprise1 = idEntreprise2;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    // _employees = [];
+    // _lockList = [];
+    gett();
+    // getData();
+    // Future.delayed(const Duration(seconds: 2));
+    // timelock = Timer.periodic(Duration(seconds: 10), (Timer t) => getData());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -48,10 +84,15 @@ class _BodyState extends State<Body> {
                           children: <Widget>[
                             TodayAC(
                               iconImg: "assets/images/add.png",
-                              nameTxt: "Add LOCK",
+                              nameTxt: "LOCK",
                               total: "01",
                               onPressed: () {
-                                // getPower();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LockList(
+                                              idAdmin: idadmin1,
+                                            )));
                               },
                             ),
                             TodayAC(
@@ -68,12 +109,16 @@ class _BodyState extends State<Body> {
                               nameTxt: "your Access",
                               total: "31",
                               onPressed: () {
-                                // getPower();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ListAccess(
+                                          idAdmin: idadmin1,
+                                        )));
                               },
                             ),
                             TodayAC(
-                              iconImg:
-                                  "assets/images/trail-running-shoe (1).png",
+                              iconImg: "assets/Switch.png",
                               nameTxt: "other",
                               total: "21",
                               onPressed: () {
