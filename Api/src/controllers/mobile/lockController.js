@@ -3,39 +3,113 @@ const mysqlConnection = require('../../../DB/database');
 
 
 exports.view = (req, res) => {
-        const { id } = req.params;
-        mysqlConnection.query('select * from locks where id = ?', [id], (error, rows, fields) => {
-            if (!error) {
-                res.json(rows);
-            } else {
-                console.log(error);
-            }
-        })
-    }
-    //pk
-exports.addLock = (req, res) => {
+    var id = req.body.id;
+    mysqlConnection.query('select * from store_lock where user_id = ?', [id], (error, rows, fields) => {
+        if (!error) {
+            res.json(rows);
+        } else {
+            console.log(error);
+        }
+    })
+}
 
-    var lockMack = req.body.lockMack;
-    var lockData = req.body.lockData;
-    var id_user = req.body.id_user;
+exports.addLock = (req, res) => {
+    var lock_name = req.body.lock_name;
+    var lock_mac = req.body.lock_mac;
+    var auto_lock_time = req.body.auto_lock_time;
+    var lock_data = req.body.lock_data;
+    var lock_status = req.body.lock_status;
     var percent = req.body.percent;
-    if (!username || !email || !tel || !Npassword) {
+    var id_user = req.body.id_user;
+    // res.json({ response: req.body });
+
+    if (!lock_name || !lock_mac || !auto_lock_time || !lock_data || !lock_status || !percent || !id_user) {
         return res.json({ status: 'empty', message: 'Please no empty' });
     } else {
-        let selectQuery = 'SELECT email FROM users WHERE email = ? LIMIT 1';
-        mysqlConnection.query(selectQuery, [email], async(err, result, fields) => {
+        let selectQuery = 'SELECT lock_mac FROM store_lock WHERE lock_mac = ? AND user_id = ? LIMIT 1';
+        mysqlConnection.query(selectQuery, [lock_mac, id_user], async(err, result, fields) => {
 
-            if (err) return res.json({ Status: "error" });
-            if (result[0]) return res.json({ status: "exist", error: "Email has already been registered" });
-            else {
-                const password = bcryptjs.hash(Npassword, 8);
-                mysqlConnection.query('INSERT INTO users SET ?', { name: username, email: email, numero_telephone: tel, password: password, id_role: "2" }, (error, results) => {
-                    if (error) return res.json({ status: "error" })
-                    else return res.json({ status: "success", success: "user has been registered" })
+            if (err) return res.json({ Status: "error selection" });
+            if (result[0]) {
+                let updateQuery = 'update store_lock set lock_name = ?, lock_mac = ?, auto_lock_time = ?, lock_data = ?, lock_status = ?, lock_percent = ?, user_id = ? where lock_mac = ? AND user_id = ?';
+                mysqlConnection.query(updateQuery, [lock_name, lock_mac, auto_lock_time, lock_data, lock_status, percent, id_user, lock_mac, id_user], (error, rows, fields) => {
+                    if (!error) {
+                        res.json({
+                            status: 'lock updated'
+                        });
+                    } else {
+                        console.log(error);
+                    }
+                });
+            } else {
+                // let insertQuery = 'INSERT INTO store_lock ';
+                mysqlConnection.query('INSERT INTO store_lock SET ?', { lock_name: lock_name, lock_mac: lock_mac, auto_lock_time: auto_lock_time, lock_data: lock_data, lock_status: lock_status, lock_percent: percent, user_id: id_user }, (error, results) => {
+                    if (error) {
+                        console.log(error);
+                        return res.json({ status: "error" })
+                    } else return res.json({ status: "success", success: "lock registered" })
                 });
             }
         })
     }
+}
+
+exports.resetLock = (req, res) => {
+    var lock_mac = req.body.lock_mac;
+    var lock_data = req.body.lock_data;
+    var id_user = req.body.id_user;
+    var id_serrure = req.body.id_serrure;
+
+    let reseted = 'delete from store_lock where id_lock = ? AND lock_data = ?'
+    mysqlConnection.query(reseted, [id_serrure, lock_data], (error, rows, fields) => {
+        if (!error) {
+            res.json({
+                status: "deleted"
+            });
+        } else {
+            res.json({
+                status: "error"
+            });
+        }
+    })
+}
+
+
+exports.setLockPower = (req, res) => {
+    var lock_mac = req.body.lock_mac;
+    var power = req.body.power;
+    var id_user = req.body.id_user;
+
+    let setpower = 'update store_lock set lock_percent = ? WHERE lock_mac = ? AND user_id = ?';
+    mysqlConnection.query(setpower, [power, lock_mac, id_user], (error, rows, field) => {
+        if (!error) {
+            res.json({
+                status: 'success'
+            });
+        } else {
+            res.json({
+                status: 'failed'
+            });
+        }
+    })
+}
+exports.renameLock = (req, res) => {
+    var lock_mac = req.body.lock_mac;
+    var lock_name = req.body.lock_name;
+    var id_user = req.body.id_user;
+
+    let rename = 'update store_lock set lock_name = ? WHERE lock_mac = ? AND user_id = ?';
+    mysqlConnection.query(rename, [lock_name, lock_mac, id_user], (error, rows, field) => {
+        if (!error) {
+            res.json({
+                status: 'success'
+            });
+        } else {
+            res.json({
+                status: 'failed'
+            });
+        }
+    })
 }
 
 exports.updateLock = (req, res) => {
@@ -53,15 +127,15 @@ exports.updateLock = (req, res) => {
 }
 
 exports.deleteLock = (req, res) => {
-    const { id } = req.params;
-    mysqlConnection.query('delete from users where id = ?', [id], (error, rows, fields) => {
+    var id = req.body.id;
+    mysqlConnection.query('delete from store_lock where id_lock = ?', [id], (error, rows, fields) => {
         if (!error) {
             res.json({
-                Status: "User deleted"
+                Status: "deleted"
             });
         } else {
             res.json({
-                Status: error
+                Status: "error"
             });
         }
     })
