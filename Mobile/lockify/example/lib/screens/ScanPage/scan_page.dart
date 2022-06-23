@@ -82,11 +82,13 @@ class _ScanAllPageState extends State<ScanAllPage> {
       try {
         var url = Uri.parse(Urls.url_save_lock);
         Map mapp = {
-          "lockMac": scanModel.lockMac,
-          "lockData": lockData,
-          "id_user": idAdmin,
           "lock_name": name,
+          "lock_mac": scanModel.lockMac,
+          "auto_lock_time": "6",
+          "lock_data": lockData,
+          "lock_status": "0",
           "percent": scanModel.electricQuantity.toString(),
+          "id_user": idAdmin,
         };
         final response = await http.post(url,
             headers: {"Accept": "Application/JSON"}, body: mapp);
@@ -97,30 +99,59 @@ class _ScanAllPageState extends State<ScanAllPage> {
           //importer la library dart.convert
           var data = jsonDecode(response.body);
           print(data);
-          bool success = data['success'];
+          String success = data['status'];
 
-          if (success == true) {
+          if (success == "success") {
+            EasyLoading.dismiss();
+            //change name
+            openDialog(scanModel.lockMac);
+            //set lock time
+            int timestamp = DateTime.now().millisecondsSinceEpoch;
+            TTLock.setLockTime(timestamp, lockData, () {
+              print('$timestamp');
+            }, (errorCode, errorMsg) {
+              print('setLockTime not possible');
+            });
+          } else if (success == "lock updated") {
             EasyLoading.dismiss();
             openDialog(scanModel.lockMac);
-          } else if (success == false) {
-            EasyLoading.dismiss();
-            openDialog(scanModel.lockMac);
+          } else if (success == "empty") {
+            EasyLoading.showError("empty data");
           } else {
             EasyLoading.showError("error");
+            TTLock.resetLock(lockData, () {
+              print("Reset lock success");
+            }, (errorCode, errorMsg) {
+              print("++++++++++++++=========>>>>>>>>>>>>>>failed to reset ");
+            });
           }
         } else {
           EasyLoading.dismiss();
           EasyLoading.showInfo("internet error",
-              duration: Duration(seconds: 4));
+              duration: Duration(seconds: 3));
+          TTLock.resetLock(lockData, () {
+            print("Reset lock success");
+            // Navigator.popAndPushNamed(context, '/');
+          }, (errorCode, errorMsg) {
+            print("++++++++++++++=========>>>>>>>>>>>>>>failed to reset ");
+          });
         }
       } catch (e) {
         EasyLoading.dismiss();
-        EasyLoading.showInfo("error", duration: Duration(seconds: 4));
+        EasyLoading.showInfo("internal error", duration: Duration(seconds: 4));
+        TTLock.resetLock(lockData, () {
+          print("Reset lock success");
+        }, (errorCode, errorMsg) {
+          print("++++++++++++++=========>>>>>>>>>>>>>>failed to reset ");
+        });
       }
+
     }, (errorCode, errorMsg) {
       EasyLoading.dismiss();
       EasyLoading.showError(errorMsg);
     });
+
+
   }
 
   void _connectGateway(String mac, TTGatewayType type) async {
@@ -144,7 +175,7 @@ class _ScanAllPageState extends State<ScanAllPage> {
   }
 
   void _startScanLock() async {
-    EasyLoading.show(status: "tooch lock");
+    EasyLoading.show(status: "touch lock");
     _lockList = [];
     TTLock.startScanLock((scanModel) {
       bool contain = false;
@@ -194,41 +225,36 @@ class _ScanAllPageState extends State<ScanAllPage> {
   }
 
   Future<void> saveLock(String mac, String newName) async {
-    // _initLock(scanModel);
     EasyLoading.show(status: "change name");
     var url = Uri.parse(Urls.url_rename_lock);
+    Map map = {
+      "lock_mac": mac,
+      "id_user": idAdmin,
+      "lock_name": newName,
+    };
     try {
-      final response = await http.post(url, body: {
-        "kufuli": _NAME_ACTION,
-        "lockMac": mac,
-        "idAdmin": idAdmin,
-        "lock_name": newName,
-      });
-
-      print(_NAME_ACTION);
-      print(mac);
-      print(idAdmin);
-      print(newName);
+      final response = await http.post(url,
+          headers: {"Accept": "Application/JSON"}, body: map);
 
       if (response.statusCode == 200) {
         print(response.body);
         var data = jsonDecode(response.body);
         print(data);
-        String message = data['message'];
-        if (message == 'rename_success') {
+        String message = data['status'];
+        if (message == 'success') {
           print("-----renommage de success ");
           EasyLoading.dismiss();
           setState(() {
             EasyLoading.showSuccess(message);
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => LockList(
-            //               idAdmin: idAdmin,
-            //             )));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LockList(
+                          idAdmin: idAdmin,
+                        )));
           });
         }
-        if (message == 'bug_rename') {
+        if (message == 'failed') {
           EasyLoading.showInfo("failed to rename",
               duration: Duration(seconds: 4));
         }
@@ -247,28 +273,6 @@ class _ScanAllPageState extends State<ScanAllPage> {
           print("data vide");
           EasyLoading.dismiss();
           EasyLoading.showError("empty data");
-          setState(() {
-            EasyLoading.showSuccess(message);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LoginPage()),
-                (route) => false);
-          });
-        }
-        if (message == 'action_not_permitted') {
-          print("pas de permission");
-          EasyLoading.dismiss();
-          EasyLoading.showError("not permited");
-          setState(() {
-            EasyLoading.showSuccess(message);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LoginPage()),
-                (route) => false);
-          });
-        }
-        if (message == 'no_authorized') {
-          print("pas de permission");
-          EasyLoading.dismiss();
-          EasyLoading.showError("not authorized");
           setState(() {
             EasyLoading.showSuccess(message);
             Navigator.of(context).pushAndRemoveUntil(
@@ -345,6 +349,18 @@ class _ScanAllPageState extends State<ScanAllPage> {
       child: Scaffold(
           appBar: AppBar(
             title: Text(title),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    scanType == ScanType.lock
+                        ? _startScanLock()
+                        : _startScanGateway();
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.black87,
+                  ))
+            ],
           ),
           body: Material(
               child: ProgressHud(
@@ -361,27 +377,10 @@ class _ScanAllPageState extends State<ScanAllPage> {
 
   Widget getListView() {
     String gatewayNote = "power gateway";
-    String lockNote = "locks";
+    String lockNote = "touch the lock";
     String note = scanType == ScanType.lock ? lockNote : gatewayNote;
     return Column(
       children: <Widget>[
-        SizedBox(height: 10.0),
-        MaterialButton(
-          onPressed: () {
-            scanType == ScanType.lock ? _startScanLock() : _startScanGateway();
-          },
-          textColor: Colors.white,
-          color: Colors.blue,
-          child: SizedBox(
-            width: double.infinity,
-            child: Text(
-              scanType == ScanType.lock ? "scan Lock" : "scan gateway",
-              textAlign: TextAlign.center,
-            ),
-          ),
-          height: 50,
-          minWidth: 600,
-        ),
         SizedBox(height: 10.0),
         Text(note),
         Expanded(
@@ -400,7 +399,7 @@ class _ScanAllPageState extends State<ScanAllPage> {
                     TTLockScanModel scanModel = _lockList[index];
                     title = "Locks" + ' ：${scanModel.lockName}';
                     subtitle = scanModel.isInited
-                        ? "you can;t add lock again"
+                        ? "you can't add this lock"
                         : "click to init";
                     if (scanModel.isInited) {
                       textColor = Colors.red;
@@ -423,6 +422,7 @@ class _ScanAllPageState extends State<ScanAllPage> {
                           TTLock.stopScanLock();
                           // openDialog(scanModel);
                           String a = scanModel.lockName;
+
                           _initLock(scanModel, a);
                           // final name = await openDialog();
                         }

@@ -14,17 +14,56 @@ class Urls {
 
   static const String images = server_urls + '/images';
 
+  //our service
+  static const String authURL = 'https://authlockify.herokuapp.com';
   static const String baseURL = 'https://lockify.herokuapp.com';
   // static const String baseURL = 'http://192.168.0.100';
-  static const String loginURL = baseURL + '/login_lockify';
-  static const String registerURL = baseURL + '/register_lockify';
-  static const String logoutURL = baseURL + '/logout';
-  static const String userURL = baseURL + '/user';
-  static const String postsURL = baseURL + '/posts';
-  static const String commentsURL = baseURL + '/comments';
+  //all other url
+  static const String loginURL = authURL + '/login_lockify';
+  static const String registerURL = authURL + '/register_lockify';
+  static const String logoutURL = authURL + '/logout';
   static const String url_save_lock = baseURL + '/add_lock';
   static const String url_rename_lock = baseURL + '/rename_lock';
   static const String url_get_all_lock = baseURL + '/lock';
+  static const String url_get_power = baseURL + '/set_power';
+  static const String url_reset_lock = baseURL + '/reset_lock';
+  static const String url_set_admin_code = baseURL + '/set_admin_code';
+  //code
+  static const String url_get_all_code = baseURL + '/view_all_code';
+  static const String url_add_code = baseURL + '/create_code';
+  static const String url_add_share_code = baseURL + '/create_share_code';
+  static const String url_get_all_share_code = baseURL + '/view_all_share_code';
+  static const String url_delete_all_costume_code =
+      baseURL + '/delete_all_code';
+  static const String url_delete_specifique_code =
+      baseURL + '/delete_specifique_code';
+  static const String url_get_access_code_access =
+      baseURL + '/get_all_code_access_person';
+  static const String url_set_password_to_lock =
+      baseURL + '/update_password_to_lock';
+
+  //Card
+  static const String url_get_all_card = baseURL + '/view_all_card';
+  static const String url_add_card = baseURL + '/create_card';
+  static const String url_delete_all_card = baseURL + '/delete_all_card';
+  static const String url_delete_specifique_card =
+      baseURL + '/delete_specique_card';
+  static const String url_add_share_card = baseURL + '/create_share_card';
+  static const String url_get_all_share_card = baseURL + '/view_share_card';
+
+  //bluetooth
+  static const String url_get_all_bluetooch =
+      baseURL + '/view_all_bluetooch_access';
+  static const String url_create_bluetooth_access =
+      baseURL + '/create_bluetooth';
+  static const String url_remove_bluetooth_access =
+      baseURL + '/remove_bluettoth_access';
+  static const String url_edit_bluetooth_access =
+      baseURL + '/edit_bluetooch_acces';
+  static const String url_delete_all_bluetooch_access =
+      baseURL + '/delete_all_bluetooth_access';
+  static const String url_get_access_bluetooch_access =
+      baseURL + '/get_all_bluetooth_access_person';
 
 // ----- Errors -----
   static const String serverError = 'Server error';

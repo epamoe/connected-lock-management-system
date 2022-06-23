@@ -79,72 +79,72 @@ Future<ApiResponse> register(String name, String email, String password) async {
 
 
 // User
-Future<ApiResponse> getUserDetail() async {
-  ApiResponse apiResponse = ApiResponse();
-  try {
-    String token = await getToken();
-    final response = await http.get(
-        Uri.parse(Urls.userURL),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
+// Future<ApiResponse> getUserDetail() async {
+//   ApiResponse apiResponse = ApiResponse();
+//   try {
+//     String token = await getToken();
+//     final response = await http.get(
+//         Uri.parse(Urls.userURL),
+//         headers: {
+//           'Accept': 'application/json',
+//           'Authorization': 'Bearer $token'
+//         });
+//
+//     switch(response.statusCode){
+//       case 200:
+//         apiResponse.data = User.fromJson(jsonDecode(response.body));
+//         break;
+//       case 401:
+//         apiResponse.error = Urls.unauthorized;
+//         break;
+//       default:
+//         apiResponse.error = Urls.somethingWentWrong;
+//         break;
+//     }
+//   }
+//   catch(e) {
+//     apiResponse.error = Urls.serverError;
+//   }
+//   return apiResponse;
+// }
 
-    switch(response.statusCode){
-      case 200:
-        apiResponse.data = User.fromJson(jsonDecode(response.body));
-        break;
-      case 401:
-        apiResponse.error = Urls.unauthorized;
-        break;
-      default:
-        apiResponse.error = Urls.somethingWentWrong;
-        break;
-    }
-  }
-  catch(e) {
-    apiResponse.error = Urls.serverError;
-  }
-  return apiResponse;
-}
-
-// Update user
-Future<ApiResponse> updateUser(String name, String? image) async {
-  ApiResponse apiResponse = ApiResponse();
-  try {
-    String token = await getToken();
-    final response = await http.put(
-        Uri.parse(Urls.userURL),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
-        },
-        body: image == null ? {
-          'name': name,
-        } : {
-          'name': name,
-          'image': image
-        });
-    // user can update his/her name or name and image
-
-    switch(response.statusCode) {
-      case 200:
-        apiResponse.data =jsonDecode(response.body)['message'];
-        break;
-      case 401:
-        apiResponse.error = Urls.unauthorized;
-        break;
-      default:
-        print(response.body);
-        apiResponse.error = Urls.somethingWentWrong;
-        break;
-    }
-  }
-  catch (e) {
-    apiResponse.error = Urls.serverError;
-  }
-  return apiResponse;
-}
+// // Update user
+// Future<ApiResponse> updateUser(String name, String? image) async {
+//   ApiResponse apiResponse = ApiResponse();
+//   try {
+//     String token = await getToken();
+//     final response = await http.put(
+//         Uri.parse(Urls.userURL),
+//         headers: {
+//           'Accept': 'application/json',
+//           'Authorization': 'Bearer $token'
+//         },
+//         body: image == null ? {
+//           'name': name,
+//         } : {
+//           'name': name,
+//           'image': image
+//         });
+//     // user can update his/her name or name and image
+//
+//     switch(response.statusCode) {
+//       case 200:
+//         apiResponse.data =jsonDecode(response.body)['message'];
+//         break;
+//       case 401:
+//         apiResponse.error = Urls.unauthorized;
+//         break;
+//       default:
+//         print(response.body);
+//         apiResponse.error = Urls.somethingWentWrong;
+//         break;
+//     }
+//   }
+//   catch (e) {
+//     apiResponse.error = Urls.serverError;
+//   }
+//   return apiResponse;
+// }
 
 // get token
 Future<String> getToken() async {

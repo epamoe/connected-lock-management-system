@@ -43,46 +43,54 @@ class _LoginPageState extends State<LoginPage> {
   ///   pass (String): the password
   ///   newPage (Widget): the page you want to navigate to after a successful login
   void login_(String email, String pass, Widget newPage) async {
-    var url = Uri.parse(Urls.registerURL);
+    var url = Uri.parse(Urls.loginURL);
 
     Map map = {"email": email, "password": pass};
     EasyLoading.show(status: 'loading...');
-    final response = await http.post(
-        Uri.parse("https://lockify.herokuapp.com/login_lockify"),
-        headers: {"Accept": "Application/JSON"},
-        body: map);
+    try {
+      final response = await http.post(
+          url,
+          headers: {"Accept": "Application/JSON"},
+          body: map);
 
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      EasyLoading.dismiss();
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        EasyLoading.dismiss();
 
-      if (data["status"] == "success") {
-        List<dynamic> result = data["data"];
-        int id = result[0]["id"];
-        String username = result[0]["name"];
-        String email = result[0]['email'];
-        String telephone = result[0]['numero_telephone'];
-        int role = result[0]['id_role'];
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        await pref.setString('id', id.toString());
-        await pref.setString('username', username);
-        await pref.setString('email', email);
-        await pref.setString('telephone', telephone);
-        await pref.setString('id_role', role.toString());
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => newPage), (route) => false);
+        if (data["status"] == "success") {
+          List<dynamic> result = data["data"];
+          print(data);
+          int id = data["myid"];
+          String username = result[0]["username"];
+          String email = result[0]['email'];
+          String telephone = result[0]['first_name'];
+          int role = result[0]['is_superuser'];
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          await pref.setString('id', id.toString());
+          await pref.setString('username', username);
+          await pref.setString('email', email);
+          await pref.setString('telephone', telephone);
+          await pref.setString('id_role', role.toString());
+          print(result);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => newPage),
+              (route) => false);
+        }
+        if (data["status"] == "empty") {
+          EasyLoading.showError(data[""]);
+        }
+        if (data["status"] == "error") {
+          EasyLoading.showError("internet error server");
+        }
+        if (data["status"] == "invalid credential") {
+          EasyLoading.showError("invalid credential");
+        }
+      } else {
+        EasyLoading.showError("internet error network");
       }
-      if (data["status"] == "empty") {
-        EasyLoading.showError(data[""]);
-      }
-      if (data["status"] == "error") {
-        EasyLoading.showError("internet error");
-      }
-      if (data["status"] == "invalid credential") {
-        EasyLoading.showError("invalid credential");
-      }
-    } else {
-      EasyLoading.showError("internet error");
+    } catch (e) {
+      print(e);
+      EasyLoading.showError("request error");
     }
     EasyLoading.dismiss();
   }
